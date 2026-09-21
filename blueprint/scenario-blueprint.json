@@ -1,0 +1,3383 @@
+{
+  "flow": [
+    {
+      "id": 2,
+      "mapper": {},
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -2221,
+          "y": 486
+        },
+        "interface": [
+          {
+            "name": "object",
+            "type": "text"
+          },
+          {
+            "name": "entry",
+            "spec": {
+              "spec": [
+                {
+                  "name": "id",
+                  "type": "text"
+                },
+                {
+                  "name": "changes",
+                  "spec": {
+                    "spec": [
+                      {
+                        "name": "value",
+                        "spec": [
+                          {
+                            "name": "messaging_product",
+                            "type": "text"
+                          },
+                          {
+                            "name": "metadata",
+                            "spec": [
+                              {
+                                "name": "display_phone_number",
+                                "type": "text"
+                              },
+                              {
+                                "name": "phone_number_id",
+                                "type": "text"
+                              }
+                            ],
+                            "type": "collection"
+                          },
+                          {
+                            "name": "contacts",
+                            "spec": {
+                              "spec": [
+                                {
+                                  "name": "profile",
+                                  "spec": [
+                                    {
+                                      "name": "name",
+                                      "type": "text"
+                                    }
+                                  ],
+                                  "type": "collection"
+                                },
+                                {
+                                  "name": "wa_id",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "user_id",
+                                  "type": "text"
+                                }
+                              ],
+                              "type": "collection"
+                            },
+                            "type": "array"
+                          },
+                          {
+                            "name": "messages",
+                            "spec": {
+                              "spec": [
+                                {
+                                  "name": "from",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "from_user_id",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "id",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "timestamp",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "type",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "audio",
+                                  "spec": [
+                                    {
+                                      "name": "mime_type",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "name": "sha256",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "name": "id",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "name": "url",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "name": "voice",
+                                      "type": "boolean"
+                                    }
+                                  ],
+                                  "type": "collection"
+                                }
+                              ],
+                              "type": "collection"
+                            },
+                            "type": "array"
+                          }
+                        ],
+                        "type": "collection"
+                      },
+                      {
+                        "name": "field",
+                        "type": "text"
+                      }
+                    ],
+                    "type": "collection"
+                  },
+                  "type": "array"
+                }
+              ],
+              "type": "collection"
+            },
+            "type": "array"
+          }
+        ]
+      },
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      }
+    },
+    {
+      "id": 5,
+      "mapper": {
+        "body": "{{2.`hub.challenge`}}",
+        "status": "200",
+        "headers": []
+      },
+      "module": "gateway:WebhookRespond",
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -1956,
+          "y": 501
+        }
+      }
+    },
+    {
+      "id": 54,
+      "filter": {
+        "name": "Solo mensajes reales",
+        "conditions": [
+          [
+            {
+              "a": "{{2.entry[].changes[].value.messages[].from}}",
+              "o": "exist"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "mediaId": "{{2.entry[].changes[].value.messages[].audio.id}}"
+      },
+      "module": "whatsapp-business-cloud:getMedia",
+      "onerror": [
+        {
+          "id": 55,
+          "mapper": {
+            "id": "",
+            "url": "",
+            "sha256": "",
+            "file_size": "",
+            "mediaData": "",
+            "mediaName": "",
+            "mime_type": "",
+            "messaging_product": ""
+          },
+          "module": "builtin:Resume",
+          "version": 1,
+          "metadata": {
+            "designer": {
+              "x": -1714,
+              "y": 768
+            }
+          }
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -1708,
+          "y": 519
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 112,
+      "filter": null,
+      "mapper": {
+        "key": "{{2.entry[].changes[].value.messages[].from}}",
+        "returnWrapped": false
+      },
+      "module": "datastore:GetRecord",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "key",
+            "type": "text",
+            "label": "Key",
+            "required": true
+          },
+          {
+            "name": "returnWrapped",
+            "type": "boolean",
+            "label": "Return Wrapped Output",
+            "required": true
+          }
+        ],
+        "restore": {
+          "parameters": {
+            "datastore": {
+              "label": "Buffer de mensajes bot"
+            }
+          }
+        },
+        "designer": {
+          "x": -1456,
+          "y": 526
+        },
+        "interface": [
+          {
+            "help": "",
+            "name": "telefono",
+            "type": "text",
+            "label": null,
+            "default": null,
+            "required": false,
+            "multiline": false
+          },
+          {
+            "help": "",
+            "name": "mensajes",
+            "type": "text",
+            "label": null,
+            "default": null,
+            "required": false,
+            "multiline": false
+          },
+          {
+            "help": "",
+            "name": "ultima_actualizacion",
+            "type": "date",
+            "label": null,
+            "required": false
+          }
+        ],
+        "parameters": [
+          {
+            "name": "datastore",
+            "type": "datastore",
+            "label": "Data store",
+            "required": true
+          }
+        ],
+        "setupValidation": {
+          "result": {
+            "valid": true,
+            "fields": []
+          },
+          "version": 1,
+          "configuration": "8e7be4b374284cdd"
+        }
+      },
+      "parameters": {
+        "datastore": null
+      }
+    },
+    {
+      "id": 123,
+      "filter": null,
+      "mapper": {
+        "name": "marca_tiempo",
+        "scope": "roundtrip",
+        "value": "{{now}}"
+      },
+      "module": "util:SetVariable2",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "name",
+            "type": "text",
+            "label": "Variable name",
+            "required": true
+          },
+          {
+            "name": "scope",
+            "type": "select",
+            "label": "Variable lifetime",
+            "required": true,
+            "validate": {
+              "enum": [
+                "roundtrip",
+                "execution"
+              ]
+            }
+          },
+          {
+            "name": "value",
+            "type": "any",
+            "label": "Variable value"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "scope": {
+              "label": "One cycle"
+            }
+          }
+        },
+        "designer": {
+          "x": -1198,
+          "y": 532
+        },
+        "interface": [
+          {
+            "name": "marca_tiempo",
+            "type": "any",
+            "label": "marca_tiempo"
+          }
+        ],
+        "setupValidation": {
+          "result": {
+            "valid": true,
+            "fields": []
+          },
+          "version": 1,
+          "configuration": "c158eb07996eff58"
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 115,
+      "mapper": {
+        "key": "{{2.entry[].changes[].value.messages[].from}}",
+        "data": {
+          "mensajes": "{{trim(ifempty(112.mensajes; \"\") + \"\n\" + 2.entry[].changes[].value.messages[].text.body)}}",
+          "telefono": "{{2.entry[].changes[].value.messages[].from}}",
+          "ultima_actualizacion": "{{123.marca_tiempo}}"
+        },
+        "overwrite": true
+      },
+      "module": "datastore:AddRecord",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "key",
+            "type": "text",
+            "label": "Key"
+          },
+          {
+            "name": "overwrite",
+            "type": "boolean",
+            "label": "Overwrite an existing record",
+            "required": true
+          },
+          {
+            "name": "data",
+            "spec": [
+              {
+                "name": "telefono",
+                "type": "text",
+                "label": null
+              },
+              {
+                "name": "mensajes",
+                "type": "text",
+                "label": null
+              },
+              {
+                "name": "ultima_actualizacion",
+                "type": "date",
+                "label": null
+              }
+            ],
+            "type": "collection",
+            "label": "Record"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "overwrite": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "datastore": {
+              "label": "Buffer de mensajes bot"
+            }
+          }
+        },
+        "designer": {
+          "x": -951,
+          "y": 532
+        },
+        "parameters": [
+          {
+            "name": "datastore",
+            "type": "datastore",
+            "label": "Data store",
+            "required": true
+          }
+        ],
+        "setupValidation": {
+          "result": {
+            "valid": true,
+            "fields": []
+          },
+          "version": 1,
+          "configuration": "cf020e1cea877cd2"
+        }
+      },
+      "parameters": {
+        "datastore": null
+      }
+    },
+    {
+      "id": 119,
+      "filter": null,
+      "mapper": {
+        "duration": "10"
+      },
+      "module": "util:FunctionSleep",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "duration",
+            "type": "uinteger",
+            "label": "Delay",
+            "required": true,
+            "validate": {
+              "max": 300,
+              "min": 1
+            }
+          }
+        ],
+        "restore": {},
+        "designer": {
+          "x": -715,
+          "y": 530
+        },
+        "setupValidation": {
+          "result": {
+            "valid": true,
+            "fields": []
+          },
+          "version": 1,
+          "configuration": "f9a7bacbe4526e66"
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 120,
+      "filter": null,
+      "mapper": {
+        "key": "{{2.entry[].changes[].value.messages[].from}}",
+        "returnWrapped": false
+      },
+      "module": "datastore:GetRecord",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "key",
+            "type": "text",
+            "label": "Key",
+            "required": true
+          },
+          {
+            "name": "returnWrapped",
+            "type": "boolean",
+            "label": "Return Wrapped Output",
+            "required": true
+          }
+        ],
+        "restore": {
+          "parameters": {
+            "datastore": {
+              "label": "Buffer de mensajes bot"
+            }
+          }
+        },
+        "designer": {
+          "x": -450,
+          "y": 543
+        },
+        "interface": [
+          {
+            "help": "",
+            "name": "telefono",
+            "type": "text",
+            "label": null,
+            "default": null,
+            "required": false,
+            "multiline": false
+          },
+          {
+            "help": "",
+            "name": "mensajes",
+            "type": "text",
+            "label": null,
+            "default": null,
+            "required": false,
+            "multiline": false
+          },
+          {
+            "help": "",
+            "name": "ultima_actualizacion",
+            "type": "date",
+            "label": null,
+            "required": false
+          }
+        ],
+        "parameters": [
+          {
+            "name": "datastore",
+            "type": "datastore",
+            "label": "Data store",
+            "required": true
+          }
+        ],
+        "setupValidation": {
+          "result": {
+            "valid": true,
+            "fields": []
+          },
+          "version": 1,
+          "configuration": "2e4d3bf14ac963df"
+        }
+      },
+      "parameters": {
+        "datastore": null
+      }
+    },
+    {
+      "id": 59,
+      "filter": {
+        "name": "Es el ultimo mensaje",
+        "conditions": [
+          [
+            {
+              "a": "{{123.marca_tiempo}}",
+              "b": "{{120.ultima_actualizacion}}",
+              "o": "text:equal"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "file_data": "{{54.mediaData}}",
+        "file_name": "audio.opus",
+        "useFileSearchStore": false
+      },
+      "module": "gemini-ai:uploadAFile",
+      "onerror": [
+        {
+          "id": 60,
+          "mapper": {
+            "uri": "",
+            "name": "",
+            "@type": "",
+            "state": "",
+            "parent": "",
+            "mimeType": "",
+            "sizeBytes": "",
+            "createTime": "",
+            "sha256Hash": "",
+            "updateTime": "",
+            "documentName": "",
+            "expirationTime": ""
+          },
+          "module": "builtin:Resume",
+          "version": 1,
+          "metadata": {
+            "designer": {
+              "x": -196,
+              "y": 316
+            }
+          }
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": -204,
+          "y": 556
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 130,
+      "mapper": {
+        "key": "{{2.entry[].changes[].value.messages[].from}}",
+        "data": {
+          "mensajes": "",
+          "telefono": "{{2.entry[].changes[].value.messages[].from}}",
+          "ultima_actualizacion": "{{123.marca_tiempo}}"
+        },
+        "overwrite": true
+      },
+      "module": "datastore:AddRecord",
+      "version": 1,
+      "metadata": {
+        "expect": [
+          {
+            "name": "key",
+            "type": "text",
+            "label": "Key"
+          },
+          {
+            "name": "overwrite",
+            "type": "boolean",
+            "label": "Overwrite an existing record",
+            "required": true
+          },
+          {
+            "name": "data",
+            "spec": [
+              {
+                "name": "telefono",
+                "type": "text",
+                "label": null
+              },
+              {
+                "name": "mensajes",
+                "type": "text",
+                "label": null
+              },
+              {
+                "name": "ultima_actualizacion",
+                "type": "date",
+                "label": null
+              }
+            ],
+            "type": "collection",
+            "label": "Record"
+          }
+        ],
+        "restore": {
+          "expect": {
+            "overwrite": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "datastore": {
+              "label": "Buffer de mensajes bot"
+            }
+          }
+        },
+        "designer": {
+          "x": -80,
+          "y": 553
+        },
+        "parameters": [
+          {
+            "name": "datastore",
+            "type": "datastore",
+            "label": "Data store",
+            "required": true
+          }
+        ]
+      },
+      "parameters": {
+        "datastore": null
+      }
+    },
+    {
+      "id": 56,
+      "mapper": {
+        "model": "gemini-3.5-flash",
+        "contents": [
+          {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Transcribí este audio a texto en español. Respondé solo con la transcripción exacta, sin agregar comentarios, saludos ni explicaciones.",
+                "type": "text"
+              },
+              {
+                "type": "file",
+                "file_data": {
+                  "file_uri": "{{59.uri}}",
+                  "mime_type": "{{59.mimeType}}"
+                }
+              }
+            ]
+          }
+        ],
+        "generationConfig": {
+          "imageConfig": {},
+          "thinkingConfig": {}
+        },
+        "system_instruction": {}
+      },
+      "module": "gemini-ai:createACompletionGeminiPro",
+      "onerror": [
+        {
+          "id": 57,
+          "mapper": {
+            "result": {},
+            "candidates": [],
+            "responseId": "",
+            "modelVersion": "",
+            "usageMetadata": {
+              "totalTokenCount": "",
+              "promptTokenCount": "",
+              "thoughtsTokenCount": "",
+              "promptTokensDetails": [],
+              "candidatesTokenCount": ""
+            }
+          },
+          "module": "builtin:Resume",
+          "version": 1,
+          "metadata": {
+            "designer": {
+              "x": 56,
+              "y": 289
+            }
+          }
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 43,
+          "y": 549
+        }
+      },
+      "parameters": {}
+    },
+    {
+      "id": 9,
+      "mapper": {
+        "from": "drive",
+        "filter": [
+          [
+            {
+              "a": "A",
+              "b": "{{2.entry[].changes[].value.messages[].from}}",
+              "o": "text:equal"
+            }
+          ]
+        ],
+        "sheetId": "Página1",
+        "sortOrder": "asc",
+        "spreadsheetId": "YOUR_SPREADSHEET_ID",
+        "tableFirstRow": "A1:CZ1",
+        "includesHeaders": true,
+        "valueRenderOption": "FORMATTED_VALUE",
+        "dateTimeRenderOption": "FORMATTED_STRING"
+      },
+      "module": "google-sheets:filterRows",
+      "version": 2,
+      "metadata": {
+        "designer": {
+          "x": 315,
+          "y": 546
+        },
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "__ROW_NUMBER__",
+            "type": "number",
+            "label": "Row number"
+          },
+          {
+            "name": "__SPREADSHEET_ID__",
+            "type": "text",
+            "label": "Spreadsheet ID"
+          },
+          {
+            "name": "__SHEET__",
+            "type": "text",
+            "label": "Sheet"
+          },
+          {
+            "name": "0",
+            "type": "text",
+            "label": "Teléfono  (A)"
+          },
+          {
+            "name": "1",
+            "type": "text",
+            "label": "Fecha  (B)"
+          },
+          {
+            "name": "2",
+            "type": "text",
+            "label": "Primer mensaje (C)"
+          },
+          {
+            "name": "3",
+            "type": "text",
+            "label": "(D)"
+          },
+          {
+            "name": "4",
+            "type": "text",
+            "label": "(E)"
+          },
+          {
+            "name": "5",
+            "type": "text",
+            "label": "(F)"
+          },
+          {
+            "name": "6",
+            "type": "text",
+            "label": "(G)"
+          },
+          {
+            "name": "7",
+            "type": "text",
+            "label": "(H)"
+          },
+          {
+            "name": "8",
+            "type": "text",
+            "label": "(I)"
+          },
+          {
+            "name": "9",
+            "type": "text",
+            "label": "(J)"
+          },
+          {
+            "name": "10",
+            "type": "text",
+            "label": "(K)"
+          },
+          {
+            "name": "11",
+            "type": "text",
+            "label": "(L)"
+          },
+          {
+            "name": "12",
+            "type": "text",
+            "label": "(M)"
+          },
+          {
+            "name": "13",
+            "type": "text",
+            "label": "(N)"
+          },
+          {
+            "name": "14",
+            "type": "text",
+            "label": "(O)"
+          },
+          {
+            "name": "15",
+            "type": "text",
+            "label": "(P)"
+          },
+          {
+            "name": "16",
+            "type": "text",
+            "label": "(Q)"
+          },
+          {
+            "name": "17",
+            "type": "text",
+            "label": "(R)"
+          },
+          {
+            "name": "18",
+            "type": "text",
+            "label": "(S)"
+          },
+          {
+            "name": "19",
+            "type": "text",
+            "label": "(T)"
+          },
+          {
+            "name": "20",
+            "type": "text",
+            "label": "(U)"
+          },
+          {
+            "name": "21",
+            "type": "text",
+            "label": "(V)"
+          },
+          {
+            "name": "22",
+            "type": "text",
+            "label": "(W)"
+          },
+          {
+            "name": "23",
+            "type": "text",
+            "label": "(X)"
+          },
+          {
+            "name": "24",
+            "type": "text",
+            "label": "(Y)"
+          },
+          {
+            "name": "25",
+            "type": "text",
+            "label": "(Z)"
+          },
+          {
+            "name": "26",
+            "type": "text",
+            "label": "(AA)"
+          },
+          {
+            "name": "27",
+            "type": "text",
+            "label": "(AB)"
+          },
+          {
+            "name": "28",
+            "type": "text",
+            "label": "(AC)"
+          },
+          {
+            "name": "29",
+            "type": "text",
+            "label": "(AD)"
+          },
+          {
+            "name": "30",
+            "type": "text",
+            "label": "(AE)"
+          },
+          {
+            "name": "31",
+            "type": "text",
+            "label": "(AF)"
+          },
+          {
+            "name": "32",
+            "type": "text",
+            "label": "(AG)"
+          },
+          {
+            "name": "33",
+            "type": "text",
+            "label": "(AH)"
+          },
+          {
+            "name": "34",
+            "type": "text",
+            "label": "(AI)"
+          },
+          {
+            "name": "35",
+            "type": "text",
+            "label": "(AJ)"
+          },
+          {
+            "name": "36",
+            "type": "text",
+            "label": "(AK)"
+          },
+          {
+            "name": "37",
+            "type": "text",
+            "label": "(AL)"
+          },
+          {
+            "name": "38",
+            "type": "text",
+            "label": "(AM)"
+          },
+          {
+            "name": "39",
+            "type": "text",
+            "label": "(AN)"
+          },
+          {
+            "name": "40",
+            "type": "text",
+            "label": "(AO)"
+          },
+          {
+            "name": "41",
+            "type": "text",
+            "label": "(AP)"
+          },
+          {
+            "name": "42",
+            "type": "text",
+            "label": "(AQ)"
+          },
+          {
+            "name": "43",
+            "type": "text",
+            "label": "(AR)"
+          },
+          {
+            "name": "44",
+            "type": "text",
+            "label": "(AS)"
+          },
+          {
+            "name": "45",
+            "type": "text",
+            "label": "(AT)"
+          },
+          {
+            "name": "46",
+            "type": "text",
+            "label": "(AU)"
+          },
+          {
+            "name": "47",
+            "type": "text",
+            "label": "(AV)"
+          },
+          {
+            "name": "48",
+            "type": "text",
+            "label": "(AW)"
+          },
+          {
+            "name": "49",
+            "type": "text",
+            "label": "(AX)"
+          },
+          {
+            "name": "50",
+            "type": "text",
+            "label": "(AY)"
+          },
+          {
+            "name": "51",
+            "type": "text",
+            "label": "(AZ)"
+          },
+          {
+            "name": "52",
+            "type": "text",
+            "label": "(BA)"
+          },
+          {
+            "name": "53",
+            "type": "text",
+            "label": "(BB)"
+          },
+          {
+            "name": "54",
+            "type": "text",
+            "label": "(BC)"
+          },
+          {
+            "name": "55",
+            "type": "text",
+            "label": "(BD)"
+          },
+          {
+            "name": "56",
+            "type": "text",
+            "label": "(BE)"
+          },
+          {
+            "name": "57",
+            "type": "text",
+            "label": "(BF)"
+          },
+          {
+            "name": "58",
+            "type": "text",
+            "label": "(BG)"
+          },
+          {
+            "name": "59",
+            "type": "text",
+            "label": "(BH)"
+          },
+          {
+            "name": "60",
+            "type": "text",
+            "label": "(BI)"
+          },
+          {
+            "name": "61",
+            "type": "text",
+            "label": "(BJ)"
+          },
+          {
+            "name": "62",
+            "type": "text",
+            "label": "(BK)"
+          },
+          {
+            "name": "63",
+            "type": "text",
+            "label": "(BL)"
+          },
+          {
+            "name": "64",
+            "type": "text",
+            "label": "(BM)"
+          },
+          {
+            "name": "65",
+            "type": "text",
+            "label": "(BN)"
+          },
+          {
+            "name": "66",
+            "type": "text",
+            "label": "(BO)"
+          },
+          {
+            "name": "67",
+            "type": "text",
+            "label": "(BP)"
+          },
+          {
+            "name": "68",
+            "type": "text",
+            "label": "(BQ)"
+          },
+          {
+            "name": "69",
+            "type": "text",
+            "label": "(BR)"
+          },
+          {
+            "name": "70",
+            "type": "text",
+            "label": "(BS)"
+          },
+          {
+            "name": "71",
+            "type": "text",
+            "label": "(BT)"
+          },
+          {
+            "name": "72",
+            "type": "text",
+            "label": "(BU)"
+          },
+          {
+            "name": "73",
+            "type": "text",
+            "label": "(BV)"
+          },
+          {
+            "name": "74",
+            "type": "text",
+            "label": "(BW)"
+          },
+          {
+            "name": "75",
+            "type": "text",
+            "label": "(BX)"
+          },
+          {
+            "name": "76",
+            "type": "text",
+            "label": "(BY)"
+          },
+          {
+            "name": "77",
+            "type": "text",
+            "label": "(BZ)"
+          },
+          {
+            "name": "78",
+            "type": "text",
+            "label": "(CA)"
+          },
+          {
+            "name": "79",
+            "type": "text",
+            "label": "(CB)"
+          },
+          {
+            "name": "80",
+            "type": "text",
+            "label": "(CC)"
+          },
+          {
+            "name": "81",
+            "type": "text",
+            "label": "(CD)"
+          },
+          {
+            "name": "82",
+            "type": "text",
+            "label": "(CE)"
+          },
+          {
+            "name": "83",
+            "type": "text",
+            "label": "(CF)"
+          },
+          {
+            "name": "84",
+            "type": "text",
+            "label": "(CG)"
+          },
+          {
+            "name": "85",
+            "type": "text",
+            "label": "(CH)"
+          },
+          {
+            "name": "86",
+            "type": "text",
+            "label": "(CI)"
+          },
+          {
+            "name": "87",
+            "type": "text",
+            "label": "(CJ)"
+          },
+          {
+            "name": "88",
+            "type": "text",
+            "label": "(CK)"
+          },
+          {
+            "name": "89",
+            "type": "text",
+            "label": "(CL)"
+          },
+          {
+            "name": "90",
+            "type": "text",
+            "label": "(CM)"
+          },
+          {
+            "name": "91",
+            "type": "text",
+            "label": "(CN)"
+          },
+          {
+            "name": "92",
+            "type": "text",
+            "label": "(CO)"
+          },
+          {
+            "name": "93",
+            "type": "text",
+            "label": "(CP)"
+          },
+          {
+            "name": "94",
+            "type": "text",
+            "label": "(CQ)"
+          },
+          {
+            "name": "95",
+            "type": "text",
+            "label": "(CR)"
+          },
+          {
+            "name": "96",
+            "type": "text",
+            "label": "(CS)"
+          },
+          {
+            "name": "97",
+            "type": "text",
+            "label": "(CT)"
+          },
+          {
+            "name": "98",
+            "type": "text",
+            "label": "(CU)"
+          },
+          {
+            "name": "99",
+            "type": "text",
+            "label": "(CV)"
+          },
+          {
+            "name": "100",
+            "type": "text",
+            "label": "(CW)"
+          },
+          {
+            "name": "101",
+            "type": "text",
+            "label": "(CX)"
+          },
+          {
+            "name": "102",
+            "type": "text",
+            "label": "(CY)"
+          },
+          {
+            "name": "103",
+            "type": "text",
+            "label": "(CZ)"
+          }
+        ]
+      },
+      "parameters": {}
+    },
+    {
+      "id": 20,
+      "mapper": null,
+      "module": "builtin:BasicRouter",
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 12,
+              "filter": {
+                "name": "",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{9.`__ROW_NUMBER__`}}",
+                      "o": "notexist"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "from": "drive",
+                "mode": "select",
+                "values": {
+                  "0": "{{2.entry[].changes[].value.messages[].from}}",
+                  "1": "{{now}}",
+                  "2": "{{2.entry[].changes[].value.messages[].text.body}}",
+                  "6": "{{formatDate(now; \"YYYY-MM-DD HH:mm\"; \"America/Montevideo\")}}"
+                },
+                "sheetId": "Página1",
+                "spreadsheetId": "YOUR_SPREADSHEET_ID",
+                "includesHeaders": true,
+                "insertDataOption": "INSERT_ROWS",
+                "useColumnHeaders": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertUnformatted": false
+              },
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "metadata": {
+                "designer": {
+                  "x": 1023,
+                  "y": 177
+                }
+              },
+              "parameters": {}
+            },
+            {
+              "id": 4,
+              "mapper": {
+                "model": "gemini-3.5-flash",
+                "contents": [
+                  {
+                    "role": "user",
+                    "parts": [
+                      {
+                        "text": "Historial de la conversasion hasta ahora: (vacio, es la primera vez que te escribe)\nMensaje nuevo del cliente:\n{{ifempty(120.mensajes; ifempty(2.entry[].changes[].value.messages[].text.body; 56.result))}}",
+                        "type": "text"
+                      }
+                    ]
+                  }
+                ],
+                "generationConfig": {
+                  "imageConfig": {},
+                  "thinkingConfig": {}
+                },
+                "system_instruction": {
+                  "parts": [
+                    {
+                      "text": "Tenes memoria de esta conversacion. Usa el historial que te paso para NO repetir preguntas que el cliente ya respondio antes.\nHoy es {{formatDate(now; \" \"\"dddd DD/MM/YYYY HH:mm\"\"\"; \" \"\"America/Montevideo\"\"\")}}.  Usá esta fecha para saber que dia es \"hoy\", \"mañana\", o si el restaurante está cerrado por ser lunes.Sos el asistente virtual de Sabores de Puerto, un restaurante de Montevideo, Uruguay.\r\n\r\nTu función es atender clientes por WhatsApp de forma cálida, cercana, rápida y natural, como si fueras parte del equipo del restaurante.\r\n\r\nHablá en español rioplatense, usando “vos”, y evitá sonar como un robot.\r\n\r\nINFORMACIÓN DEL RESTAURANTE\r\n\r\nNombre: Sabores de Puerto\r\nCiudad: Montevideo, Uruguay\r\nDirección de prueba: Rambla 25 de Agosto de 1825 345, Ciudad Vieja, Montevideo.\r\nTeléfono de prueba: 2900 1234.\r\n\r\nHorarios:\r\n\r\nMartes a domingo: 12:00 a 16:00 y 20:00 a 24:00.\r\nLunes: cerrado.\r\nCocina: parrilla, pastas caseras, pescado y opciones vegetarianas.\r\n\r\n\r\n\r\nMENÚ\r\n\r\nLos principales tipos de comida son:\r\n\r\n🥩 Parrillada\r\n🍝 Pastas caseras\r\n🐟 Pescado del día\r\n🥗 Opciones vegetarianas\r\n\r\nPara la prueba, podés mencionar estos platos ficticios:\r\n\r\nParrillada para 2: $1.650.\r\nParrillada individual: $890.\r\nBife de chorizo con papas: $790.\r\nPasta casera del día: $590.\r\nRavioles de ricota y espinaca: $620.\r\nPescado del día con guarnición: $720.\r\nRisotto de vegetales: $610.\r\nEnsalada completa: $480.\r\nPapas fritas: $220.\r\nEnsalada mixta: $200.\r\nFlan casero: $220.\r\nChajá: $280.\r\nEstos precios son de prueba. Si el cliente pregunta por precios, utilizá estos valores.\r\n\r\nSi pregunta por un plato que no aparece en esta lista, decí:\r\n\r\n“Déjame confirmarte ese plato con el equipo 😊”\r\n\r\nNo inventes otros platos.\r\n\r\n\r\n\r\nRECOMENDACIONES\r\n\r\nSi preguntan “¿qué me recomendás?”, “¿qué es lo más pedido?” o “¿qué está bueno?”, podés responder:\r\n\r\n“La parrillada para 2 es una de las opciones que más recomendamos 🥩. Si preferís algo más liviano, el pescado del día también es una muy buena opción. Y si buscás algo sin carne, tenemos pastas y opciones vegetarianas 😊”\r\n\r\n\r\n\r\nDELIVERY\r\n\r\nSí, hacemos delivery.\r\n\r\nRadio: hasta 5 km.\r\nCosto: $150.\r\nDelivery gratis: pedidos mayores a $1.200.\r\n\r\nEjemplo:\r\n\r\n“¡Sí! 😊 Hacemos delivery hasta 5 km. El envío cuesta $150 y es gratis en pedidos mayores a $1.200.”\r\n\r\nSi pregunta si llegamos a una dirección:\r\n\r\n“Pasame tu dirección o la zona y te ayudo a verificar si está dentro de nuestro radio de 5 km 😊”\r\n\r\nPara esta prueba, considerá que las zonas dentro de 5 km incluyen:\r\n\r\nCiudad Vieja.\r\nCentro.\r\nCordón.\r\nBarrio Sur.\r\nPalermo.\r\nParque Rodó.\r\nPocitos.\r\nPunta Carretas.\r\nTres Cruces.\r\nSi pregunta por una zona que no esté en esta lista, decí que un encargado debe confirmar la cobertura.\r\n\r\n\r\n\r\nPEDIDOS DE DELIVERY\r\n\r\nSi el cliente quiere hacer un pedido, preguntá:\r\n\r\nQué quiere pedir.\r\nCantidad.\r\nDirección.\r\nNombre.\r\nTeléfono.\r\nForma de pago.\r\nEjemplo:\r\n\r\n“¡Dale! 😊 Para armar el pedido necesito saber qué querés pedir, la cantidad, tu nombre, dirección, teléfono y cómo preferís pagar.”\r\n\r\nFormas de pago de prueba:\r\n\r\nEfectivo.\r\nTarjeta.\r\nMercado Pago.\r\nSi el pedido supera $1.200, avisá:\r\n\r\n“Además, por superar los $1.200, el delivery te queda gratis 😊”\r\n\r\nNo inventes tiempos exactos de entrega. Para la prueba, podés decir:\r\n\r\n“El tiempo estimado es de aproximadamente 40 a 60 minutos, dependiendo de la demanda.”\r\n\r\n\r\n\r\nRESERVAS\r\n\r\nTomamos reservas.\r\n\r\nPara solicitar una reserva pedí:\r\n\r\nNombre.\r\nDía.\r\nHorario.\r\nCantidad de personas.\r\nEjemplo:\r\n\r\n“¡Claro! 😊 ¿Me pasás tu nombre, para qué día, a qué hora y para cuántas personas sería?”\r\n\r\nPara esta prueba, podés asumir que normalmente hay disponibilidad, excepto cuando el cliente pida:\r\n\r\nMás de 10 personas.\r\nEventos.\r\nMesas especiales.\r\nHorarios fuera del horario del restaurante.\r\nEn esos casos:\r\n\r\n“Para grupos grandes necesitamos confirmarlo con el equipo. Pasame tu nombre, cantidad de personas, día, horario y teléfono y te contactamos en breve 😊”\r\n\r\nPara reservas normales, podés responder:\r\n\r\n“¡Perfecto! Te dejo anotada la reserva para [día] a las [hora], para [cantidad] personas, a nombre de [nombre] 😊”\r\n\r\n\r\n\r\nCAMBIAR O CANCELAR UNA RESERVA\r\n\r\nSi quiere modificar una reserva, pedí:\r\n\r\nNombre.\r\nDía y horario original.\r\nNuevo día/horario.\r\nCantidad de personas.\r\nSi quiere cancelar:\r\n\r\n“Claro, no hay problema 😊 Pasame el nombre de la reserva y el día para poder identificarla.”\r\n\r\n\r\n\r\nGRUPOS Y EVENTOS\r\n\r\nSi preguntan por cumpleaños, reuniones, eventos, cenas empresariales o grupos grandes:\r\n\r\n“¡Claro! 😊 Podemos evaluar reservas para grupos y ocasiones especiales. Pasame tu nombre, fecha, horario aproximado, cantidad de personas, tipo de evento y teléfono y te contactamos en breve.”\r\n\r\nNo inventes precios de eventos ni paquetes especiales.\r\n\r\n\r\n\r\nCUMPLEAÑOS\r\n\r\nPara la prueba:\r\n\r\n“¡Sí! 🎉 Podemos recibir cumpleaños y celebraciones. Si querés organizar algo especial, pasame la fecha, cantidad de personas y un teléfono y te contactamos en breve.”\r\n\r\nNo prometas decoración, torta gratis ni descuentos.\r\n\r\n\r\n\r\nNIÑOS\r\n\r\nPara esta prueba:\r\n\r\n“Sí 😊 Somos un restaurante familiar y recibimos familias con niños.”\r\n\r\nSi preguntan por menú infantil:\r\n\r\n“Tenemos opciones que suelen funcionar muy bien para niños, como pastas, papas y platos simples. Si buscás algo específico, puedo consultarlo con el equipo.”\r\n\r\n\r\n\r\nMASCOTAS\r\n\r\nPara esta prueba:\r\n\r\n“Las mascotas son bienvenidas en el espacio exterior/terraza 🐶. En el salón interior no está permitido el ingreso de mascotas, salvo animales de asistencia.”\r\n\r\n\r\n\r\nESTACIONAMIENTO\r\n\r\nPara esta prueba:\r\n\r\n“No tenemos estacionamiento privado, pero hay estacionamiento en la vía pública y opciones de parking cercanas.”\r\n\r\n\r\n\r\nACCESIBILIDAD\r\n\r\nPara esta prueba:\r\n\r\n“Sí 😊 El ingreso principal es accesible para personas con movilidad reducida.”\r\n\r\nSi preguntan por detalles específicos del baño, mesas o accesos:\r\n\r\n“Para ese detalle puntual prefiero confirmarlo con el equipo para darte la información correcta.”\r\n\r\n\r\n\r\nFORMAS DE PAGO\r\n\r\nAceptamos:\r\n\r\nEfectivo.\r\nTarjetas de débito y crédito.\r\nMercado Pago.\r\nSi preguntan por una tarjeta o promoción bancaria específica:\r\n\r\n“No tengo confirmada esa promoción en este momento. Un encargado puede confirmártelo 😊”\r\n\r\n\r\n\r\nOPCIONES VEGETARIANAS\r\n\r\nSí, tenemos opciones vegetarianas.\r\n\r\nPodés mencionar:\r\n\r\nRavioles de ricota y espinaca.\r\nRisotto de vegetales.\r\nEnsalada completa.\r\nSi preguntan por opciones veganas:\r\n\r\n“Tenemos algunas opciones que pueden adaptarse, pero prefiero confirmarlo con cocina antes de asegurarte que un plato es 100% vegano.”\r\n\r\n\r\n\r\nALERGIAS\r\n\r\nIMPORTANTE:\r\n\r\nNunca garantices que un plato es seguro para una persona con una alergia severa.\r\n\r\nSi preguntan:\r\n\r\n“¿Es apto para celíacos?”\r\n“¿Tiene frutos secos?”\r\n“¿Tiene maní?”\r\n“¿Tiene gluten?”\r\n“¿Hay contaminación cruzada?”\r\n“¿Soy alérgico a los mariscos, qué puedo comer?”\r\n\r\nRespondé:\r\n\r\n“Entiendo 😊 Como se trata de una alergia o restricción alimentaria, prefiero que lo confirme directamente un encargado con cocina para darte una respuesta segura. Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\nNo inventes información sobre contaminación cruzada.\r\n\r\n\r\n\r\nINGREDIENTES\r\n\r\nSi el ingrediente está expresamente indicado en el menú, podés responder.\r\n\r\nSi no está indicado:\r\n\r\n“No tengo confirmado ese ingrediente. Prefiero consultarlo con cocina para darte la información correcta 😊”\r\n\r\n\r\n\r\nUBICACIÓN\r\n\r\nDirección de prueba:\r\n\r\n“Estamos en Rambla 25 de Agosto de 1825 345, Ciudad Vieja, Montevideo.”\r\n\r\nSi preguntan cómo llegar:\r\n\r\n“Estamos en Ciudad Vieja, sobre la Rambla 25 de Agosto de 1825. Si querés, te paso la ubicación exacta.”\r\n\r\n\r\n\r\nHORARIOS\r\n\r\nSi preguntan “¿están abiertos hoy?”:\r\n\r\nRespondé según el día:\r\n\r\nMartes a domingo:\r\n12:00 a 16:00 y 20:00 a 24:00.\r\n\r\nLunes:\r\n“Los lunes estamos cerrados 😊”\r\n\r\nSi preguntan por feriados:\r\n\r\n“Los horarios de feriados pueden variar. Para confirmarte el horario de ese día, un encargado puede ayudarte.”\r\n\r\n\r\n\r\nTAKE AWAY\r\n\r\nPara esta prueba:\r\n\r\n“Sí 😊 También podés retirar tu pedido por el local. Si querés hacer un pedido para retirar, decime qué te gustaría pedir y te ayudo.”\r\n\r\n\r\n\r\nPROMOCIONES\r\n\r\nPromoción ficticia para la prueba:\r\n\r\n“Los martes tenemos 10% de descuento en pastas caseras pagando en efectivo.”\r\n\r\nSi preguntan por otras promociones:\r\n\r\n“No tengo otra promoción confirmada en este momento, pero puedo consultarlo con el equipo 😊”\r\n\r\n\r\n\r\nPLATO DEL DÍA\r\n\r\nPara la prueba:\r\n\r\n“El pescado del día cambia según disponibilidad. Hoy podés consultar con el equipo cuál es la opción disponible.”\r\n\r\nNo inventes qué pescado es.\r\n\r\n\r\n\r\nMENÚ SIN GLUTEN\r\n\r\nNo afirmar que el restaurante tiene una cocina sin gluten.\r\n\r\nResponder:\r\n\r\n“Tenemos opciones que pueden adaptarse, pero por seguridad prefiero que un encargado confirme los ingredientes y la preparación con cocina.”\r\n\r\n\r\n\r\nMENÚ VEGANO\r\n\r\nNo afirmar que existe un menú vegano completo.\r\n\r\nResponder:\r\n\r\n“Tenemos algunas opciones vegetarianas y algunas preparaciones pueden adaptarse, pero prefiero confirmarlo con cocina según lo que necesites 😊”\r\n\r\n\r\n\r\nCARTA / MENÚ COMPLETO\r\n\r\nSi el cliente pide “pasame el menú”:\r\n\r\n“¡Claro! 😊 Tenemos:\r\n\r\n🥩 Parrillada para 2 — $1.650\r\n🥩 Parrillada individual — $890\r\n🥩 Bife de chorizo con papas — $790\r\n🍝 Pasta casera del día — $590\r\n🍝 Ravioles de ricota y espinaca — $620\r\n🐟 Pescado del día con guarnición — $720\r\n🥗 Risotto de vegetales — $610\r\n🥗 Ensalada completa — $480\r\n🍟 Papas fritas — $220\r\n🥗 Ensalada mixta — $200\r\n🍮 Flan casero — $220\r\n🍰 Chajá — $280\r\n\r\nSi querés, también puedo ayudarte a elegir 😊”\r\n\r\n\r\n\r\nRECLAMOS\r\n\r\nSi el cliente está enojado, recibió mal un pedido, tuvo una demora, faltó algo o quiere reclamar:\r\n\r\nNo discutas ni inventes compensaciones.\r\n\r\nRespondé:\r\n\r\n“Lamento mucho lo que pasó 😔 Quiero que podamos solucionarlo. Pasame tu nombre, teléfono y contame brevemente qué ocurrió y te contactamos en breve.”\r\n\r\n\r\n\r\nDEVOLUCIONES / REEMBOLSOS\r\n\r\nNo prometas devoluciones.\r\n\r\nRespondé:\r\n\r\n“Para gestionar un reintegro o devolución necesito que lo revise un encargado. Pasame tu nombre, teléfono y qué ocurrió y te contactamos en breve.”\r\n\r\n\r\n\r\nPEDIDO DE HABLAR CON UNA PERSONA\r\n\r\nSi el cliente pide explícitamente hablar con una persona, un humano, un encargado, un empleado, o dice cosas como \"quiero hablar con alguien\", \"pasame con una persona\", \"no quiero hablar con un bot\":\r\n\r\n“Entiendo 😊 Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\n\r\n\r\nINFORMACIÓN QUE NO CONOCÉS\r\n\r\nSi el cliente pregunta algo que no está en este prompt, NO INVENTES.\r\n\r\nUsá:\r\n\r\n“No quiero darte una información incorrecta 😊 Prefiero confirmarlo con un encargado de Sabores de Puerto. Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\n\r\n\r\nTONO\r\n\r\nSiempre:\r\n\r\nCálido.\r\nCercano.\r\nNatural.\r\nAmable.\r\nBreve.\r\nRioplatense.\r\nUsá “vos”.\r\nPodés usar emojis, pero sin exagerar.\r\nNunca digas:\r\n\r\n“Como inteligencia artificial…”\r\n“Como modelo de lenguaje…”\r\n“No tengo acceso a…”\r\n“Mi base de datos…”\r\n“No estoy programado para…”\r\n\r\nEn su lugar, decí:\r\n\r\n“Déjame confirmarlo con el equipo 😊”\r\n\r\no\r\n\r\n“Prefiero que un encargado te lo confirme para darte la información correcta.”\r\n\r\n\r\n\r\nREGLAS IMPORTANTES\r\n\r\nNunca inventes información fuera de este prompt.\r\n\r\nCada vez que derives una consulta a un encargado (alergias, reclamos, devoluciones, grupos grandes, eventos, información desconocida, o pedido de hablar con una persona), cerrá siempre tu respuesta con esta frase exacta, sin cambiar ni una palabra: “te contactamos en breve”.\r\nSi la información está en este prompt, respondela directamente.\r\nSi el cliente hace varias preguntas, respondé todas.\r\nNo hagas preguntas innecesarias.\r\nPara reservas, pedí nombre, día, hora y cantidad de personas.\r\nPara delivery, pedí pedido, nombre, teléfono, dirección y forma de pago.\r\nPara grupos grandes y eventos, derivá a un encargado.\r\nPara alergias específicas, derivá a un encargado.\r\nPara reclamos, derivá a un encargado.\r\nPara cualquier información desconocida, derivá a un encargado.\r\nNunca garantices seguridad alimentaria ante una alergia.\r\nNo prometas descuentos, compensaciones ni beneficios que no estén indicados.\r\nNo confirmes disponibilidad de una reserva si no podés comprobarla.\r\nRespondé de forma natural y conversacional.\r\nSi el cliente solamente saluda, saludalo y preguntale en qué podés ayudarlo.\r\n\r\n\r\nEJEMPLOS DE CONVERSACIÓN\r\n\r\nCliente: “Hola”\r\n\r\nBot:\r\n“¡Hola! 😊 Bienvenido/a a Sabores de Puerto. ¿En qué te puedo ayudar?”\r\n\r\nCliente: “¿A qué hora abren?”\r\n\r\nBot:\r\n“De martes a domingo estamos de 12 a 16 y de 20 a 24 😊 Los lunes estamos cerrados.”\r\n\r\nCliente: “Quiero reservar”\r\n\r\nBot:\r\n“¡Claro! 😊 ¿Me pasás tu nombre, para qué día, a qué hora y para cuántas personas?”\r\n\r\nCliente: “¿Hacen delivery?”\r\n\r\nBot:\r\n“¡Sí! Hacemos delivery hasta 5 km. Sale $150 y es gratis en pedidos mayores a $1.200 😊”\r\n\r\nCliente: “¿Tienen vegetarianos?”\r\n\r\nBot:\r\n“¡Sí! 🥗 Tenemos varias opciones vegetarianas, como ravioles de ricota y espinaca, risotto de vegetales y ensalada completa.”\r\n\r\nCliente: “Soy celíaco, ¿qué puedo comer?”\r\n\r\nBot:\r\n“Entiendo 😊 Para una restricción como la celiaquía prefiero que lo confirme directamente un encargado con cocina para darte una respuesta segura. Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\nCliente: “¿Tienen estacionamiento?”\r\n\r\nBot:\r\n“No tenemos estacionamiento privado, pero hay estacionamiento en la vía pública y opciones de parking cercanas 😊”\r\n\r\nCliente: “Quiero festejar mi cumpleaños para 15 personas”\r\n\r\nBot:\r\n“¡Qué lindo! 🎉 Para un grupo de ese tamaño necesitamos coordinarlo con un encargado. Pasame tu nombre, fecha, horario aproximado, cantidad de personas y teléfono y te contactamos para organizarlo.”\r\n\r\nCliente: “¿Aceptan Mercado Pago?”\r\n\r\nBot:\r\n“Sí 😊 Aceptamos Mercado Pago, además de efectivo y tarjetas.”\r\n\r\nCliente: “¿Puedo ir con mi perro?”\r\n\r\nBot:\r\n“Sí 🐶 Las mascotas son bienvenidas en nuestra terraza o espacio exterior. En el salón interior no están permitidas, salvo animales de asistencia.”\r\n\r\nCliente: “¿Cuál es el plato más rico?”\r\n\r\nBot:\r\n“Si querés algo bien de restaurante, te recomiendo la parrillada para 2 🥩. Si preferís algo más liviano, el pescado del día es una muy buena opción. Y si no comés carne, tenemos varias opciones vegetarianas 😊”\r\n\r\nCliente: “No me llegó bien el pedido”\r\n\r\nBot:\r\n“Uy, lamento mucho lo que pasó 😔 Pasame tu nombre, teléfono y contame qué ocurrió con el pedido. Un encargado se va a contactar con vos para solucionarlo.”\r\n\r\nCliente: “¿Tienen una mesa para 20 personas?”\r\n\r\nBot:\r\n“Para 20 personas necesitamos coordinarlo directamente con el equipo 😊 Pasame tu nombre, fecha, horario, cantidad de personas y teléfono y un encargado te contacta.”\r\n\r\nCliente: “¿Dónde quedan?”\r\n\r\nBot:\r\n“Estamos en Rambla 25 de Agosto de 1825 345, Ciudad Vieja, Montevideo 😊”\r\n\r\nCliente: “¿Abren los lunes?”\r\n\r\nBot:\r\n“No, los lunes estamos cerrados 😊 Abrimos de martes a domingo.”\r\n\r\nCliente: “¿Cuál es el teléfono?”\r\n\r\nBot:\r\n“Podés contactarnos al 2900 1234 😊”\r\n\r\n\r\n\r\nOBJETIVO FINAL\r\n\r\nTu objetivo es que el cliente sienta que está hablando con alguien real del equipo de Sabores de Puerto.\r\n\r\nRespondé rápido, con calidez y sin dar vueltas.\r\n\r\nSi podés resolver la consulta con la información disponible, resolvela.\r\n\r\nSi necesitás información que no está disponible o la consulta requiere criterio humano, derivala a un encargado.\r\n\r\nNunca inventes una respuesta cuando no tengas información suficiente."
+                    }
+                  ]
+                }
+              },
+              "module": "gemini-ai:createACompletionGeminiPro",
+              "onerror": [
+                {
+                  "id": 124,
+                  "filter": null,
+                  "mapper": {
+                    "key": "{{2.entry[].changes[].value.messages[].from}}",
+                    "data": {
+                      "mensajes": "",
+                      "telefono": "{{2.entry[].changes[].value.messages[].from}}",
+                      "ultima_actualizacion": ""
+                    },
+                    "overwrite": true
+                  },
+                  "module": "datastore:AddRecord",
+                  "version": 1,
+                  "metadata": {
+                    "expect": [
+                      {
+                        "name": "key",
+                        "type": "text",
+                        "label": "Key"
+                      },
+                      {
+                        "name": "overwrite",
+                        "type": "boolean",
+                        "label": "Overwrite an existing record",
+                        "required": true
+                      },
+                      {
+                        "name": "data",
+                        "spec": [
+                          {
+                            "name": "telefono",
+                            "type": "text",
+                            "label": null
+                          },
+                          {
+                            "name": "mensajes",
+                            "type": "text",
+                            "label": null
+                          },
+                          {
+                            "name": "ultima_actualizacion",
+                            "type": "date",
+                            "label": null
+                          }
+                        ],
+                        "type": "collection",
+                        "label": "Record"
+                      }
+                    ],
+                    "restore": {
+                      "expect": {
+                        "overwrite": {
+                          "mode": "chose"
+                        }
+                      },
+                      "parameters": {
+                        "datastore": {
+                          "label": "Buffer de mensajes bot"
+                        }
+                      }
+                    },
+                    "designer": {
+                      "x": 1873,
+                      "y": 410
+                    },
+                    "parameters": [
+                      {
+                        "name": "datastore",
+                        "type": "datastore",
+                        "label": "Data store",
+                        "required": true
+                      }
+                    ],
+                    "setupValidation": {
+                      "result": {
+                        "valid": true,
+                        "fields": []
+                      },
+                      "version": 1,
+                      "configuration": "1778baf36e1bd872"
+                    }
+                  },
+                  "parameters": {
+                    "datastore": null
+                  }
+                },
+                {
+                  "id": 103,
+                  "mapper": {
+                    "to": "{{2.entry[].changes[].value.messages[].from}}",
+                    "text": {
+                      "body": "¡Uy, perdón la demora! 😅 Estamos a full en el restaurante en este momento. Dame un minutito y te contesto enseguida, o si es urgente llamanos al 2900 1234 💛",
+                      "preview_url": false
+                    },
+                    "type": "text",
+                    "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                  },
+                  "module": "whatsapp-business-cloud:sendMessage",
+                  "version": 1,
+                  "metadata": {
+                    "designer": {
+                      "x": 2136,
+                      "y": 403
+                    }
+                  },
+                  "parameters": {}
+                }
+              ],
+              "version": 1,
+              "metadata": {
+                "expect": [
+                  {
+                    "name": "model",
+                    "type": "select",
+                    "label": "AI Model",
+                    "required": true
+                  },
+                  {
+                    "name": "contents",
+                    "spec": [
+                      {
+                        "name": "role",
+                        "type": "select",
+                        "label": "Role",
+                        "options": [
+                          {
+                            "label": "User",
+                            "value": "user"
+                          },
+                          {
+                            "label": "Model",
+                            "value": "model"
+                          }
+                        ],
+                        "required": true
+                      },
+                      {
+                        "name": "parts",
+                        "spec": [
+                          {
+                            "name": "type",
+                            "type": "select",
+                            "label": "Message Type",
+                            "options": [
+                              {
+                                "label": "Text",
+                                "value": "text",
+                                "nested": [
+                                  {
+                                    "name": "text",
+                                    "type": "text",
+                                    "label": "Text",
+                                    "required": true
+                                  }
+                                ]
+                              },
+                              {
+                                "label": "File",
+                                "value": "file",
+                                "nested": [
+                                  {
+                                    "name": "file_data",
+                                    "spec": [
+                                      {
+                                        "name": "mime_type",
+                                        "type": "text",
+                                        "label": "Mime Type",
+                                        "required": true
+                                      },
+                                      {
+                                        "help": "You can use public or signed URLs as input by using the URLs.",
+                                        "name": "file_uri",
+                                        "type": "text",
+                                        "label": "File URI",
+                                        "required": true
+                                      }
+                                    ],
+                                    "type": "collection",
+                                    "label": "File Data",
+                                    "required": true
+                                  }
+                                ]
+                              },
+                              {
+                                "label": "Function Call",
+                                "value": "functionCall",
+                                "nested": [
+                                  {
+                                    "name": "functionCall",
+                                    "spec": [
+                                      {
+                                        "help": "The name of the function to call.",
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Name",
+                                        "required": true,
+                                        "validate": {
+                                          "max": 64
+                                        }
+                                      },
+                                      {
+                                        "help": "The function parameters and values in JSON object format.",
+                                        "name": "args",
+                                        "type": "json",
+                                        "label": "Arguments"
+                                      },
+                                      {
+                                        "help": "The unique ID of the function call.",
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "Function Call ID"
+                                      }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Function Call"
+                                  }
+                                ]
+                              },
+                              {
+                                "label": "Function Response",
+                                "value": "functionResponse",
+                                "nested": [
+                                  {
+                                    "name": "functionResponse",
+                                    "spec": [
+                                      {
+                                        "help": "The name of the function to call.",
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Name",
+                                        "required": true,
+                                        "validate": {
+                                          "max": 64
+                                        }
+                                      },
+                                      {
+                                        "help": "The function response in JSON object format.",
+                                        "name": "response",
+                                        "type": "json",
+                                        "label": "Response",
+                                        "required": true
+                                      }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Function Response"
+                                  }
+                                ]
+                              }
+                            ],
+                            "required": true
+                          },
+                          {
+                            "name": "thoughtSignature",
+                            "type": "text",
+                            "label": "Thought Signature"
+                          }
+                        ],
+                        "type": "array",
+                        "label": "Parts",
+                        "required": true
+                      }
+                    ],
+                    "type": "array",
+                    "label": "Messages",
+                    "required": true
+                  },
+                  {
+                    "name": "system_instruction",
+                    "spec": [
+                      {
+                        "name": "parts",
+                        "spec": {
+                          "name": "value",
+                          "spec": [
+                            {
+                              "name": "text",
+                              "type": "text",
+                              "label": "Value"
+                            }
+                          ],
+                          "type": "collection",
+                          "label": "Prompt"
+                        },
+                        "type": "array",
+                        "label": "Prompts"
+                      }
+                    ],
+                    "type": "collection",
+                    "label": "System Instructions"
+                  },
+                  {
+                    "name": "safetySettings",
+                    "spec": [
+                      {
+                        "name": "category",
+                        "type": "select",
+                        "label": "Category",
+                        "options": [
+                          {
+                            "label": "Harassment content",
+                            "value": "HARM_CATEGORY_HARASSMENT"
+                          },
+                          {
+                            "label": "Hate speech and content",
+                            "value": "HARM_CATEGORY_HATE_SPEECH"
+                          },
+                          {
+                            "label": "Sexually explicit content.",
+                            "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+                          },
+                          {
+                            "label": "Dangerous content:",
+                            "value": "HARM_CATEGORY_DANGEROUS_CONTENT"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "threshold",
+                        "type": "select",
+                        "label": "Threshold",
+                        "options": [
+                          {
+                            "label": "Block low and above.",
+                            "value": "BLOCK_LOW_AND_ABOVE"
+                          },
+                          {
+                            "label": "Block medium and above.",
+                            "value": "BLOCK_MEDIUM_AND_ABOVE"
+                          },
+                          {
+                            "label": "Block only high.",
+                            "value": "BLOCK_ONLY_HIGH"
+                          },
+                          {
+                            "label": "Block none.",
+                            "value": "BLOCK_NONE"
+                          }
+                        ]
+                      }
+                    ],
+                    "type": "array",
+                    "label": "Safety Settings"
+                  },
+                  {
+                    "name": "generationConfig",
+                    "spec": [
+                      {
+                        "name": "stopSequences",
+                        "spec": {
+                          "name": "value",
+                          "type": "text",
+                          "label": "Stop Sequence"
+                        },
+                        "type": "array",
+                        "label": "Stop Sequences"
+                      },
+                      {
+                        "name": "responseModalities",
+                        "type": "select",
+                        "label": "Response Modalities",
+                        "multiple": true,
+                        "validate": {
+                          "enum": [
+                            "text",
+                            "image"
+                          ]
+                        }
+                      },
+                      {
+                        "name": "maxOutputTokens",
+                        "type": "number",
+                        "label": "Max Output Tokens"
+                      },
+                      {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                          "max": 1,
+                          "min": 0
+                        }
+                      },
+                      {
+                        "name": "topP",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                          "max": 1,
+                          "min": 0
+                        }
+                      },
+                      {
+                        "name": "topK",
+                        "type": "number",
+                        "label": "Top K"
+                      },
+                      {
+                        "name": "thinkingConfig",
+                        "spec": [
+                          {
+                            "name": "thinkingBudget",
+                            "type": "number",
+                            "label": "Thinking Budget"
+                          },
+                          {
+                            "name": "include_thoughts",
+                            "type": "boolean",
+                            "label": "Include Thoughts"
+                          },
+                          {
+                            "name": "thinking_level",
+                            "type": "select",
+                            "label": "Thinking Level",
+                            "validate": {
+                              "enum": [
+                                "low",
+                                "high"
+                              ]
+                            }
+                          }
+                        ],
+                        "type": "collection",
+                        "label": "Thinking Config"
+                      },
+                      {
+                        "name": "mediaResolution",
+                        "type": "select",
+                        "label": "Media Resolution",
+                        "validate": {
+                          "enum": [
+                            "media_resolution_low",
+                            "media_resolution_medium",
+                            "media_resolution_high"
+                          ]
+                        }
+                      },
+                      {
+                        "name": "imageConfig",
+                        "spec": [
+                          {
+                            "name": "imageSize",
+                            "type": "select",
+                            "label": "Image Size",
+                            "validate": {
+                              "enum": [
+                                "1K",
+                                "2K",
+                                "4K"
+                              ]
+                            }
+                          }
+                        ],
+                        "type": "collection",
+                        "label": "Image Configuration"
+                      },
+                      {
+                        "name": "responseMimeType",
+                        "type": "select",
+                        "label": "Response Format"
+                      }
+                    ],
+                    "type": "collection",
+                    "label": "Generation configurations"
+                  },
+                  {
+                    "name": "tools",
+                    "type": "any",
+                    "label": "Tools"
+                  },
+                  {
+                    "name": "tool_config",
+                    "type": "any",
+                    "label": "Tool Config"
+                  },
+                  {
+                    "name": "function_declarations_context",
+                    "type": "boolean",
+                    "label": "Function Declarations Grounding"
+                  },
+                  {
+                    "name": "url_context",
+                    "type": "boolean",
+                    "label": "URL Context"
+                  },
+                  {
+                    "name": "google_search_context",
+                    "type": "boolean",
+                    "label": "Google Search Grounding"
+                  },
+                  {
+                    "name": "code_execution",
+                    "type": "boolean",
+                    "label": "Code Execution"
+                  },
+                  {
+                    "name": "google_maps_context",
+                    "type": "boolean",
+                    "label": "Google Maps Grounding"
+                  },
+                  {
+                    "name": "file_search_store_context",
+                    "type": "boolean",
+                    "label": "File Search Store Context"
+                  },
+                  {
+                    "name": "serviceTier",
+                    "type": "select",
+                    "label": "Inference Service Tier"
+                  }
+                ],
+                "restore": {
+                  "expect": {
+                    "model": {
+                      "mode": "chose",
+                      "label": "Gemini 3.5 Flash"
+                    },
+                    "contents": {
+                      "mode": "chose",
+                      "items": [
+                        {
+                          "role": {
+                            "mode": "chose",
+                            "label": "User"
+                          },
+                          "parts": {
+                            "mode": "chose",
+                            "items": [
+                              {
+                                "type": {
+                                  "mode": "chose",
+                                  "label": "Text"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "serviceTier": {
+                      "mode": "chose",
+                      "label": "Empty"
+                    },
+                    "url_context": {
+                      "mode": "chose"
+                    },
+                    "code_execution": {
+                      "mode": "chose"
+                    },
+                    "safetySettings": {
+                      "mode": "chose"
+                    },
+                    "generationConfig": {
+                      "nested": {
+                        "imageConfig": {
+                          "nested": {
+                            "imageSize": {
+                              "mode": "chose",
+                              "label": "Empty"
+                            }
+                          }
+                        },
+                        "stopSequences": {
+                          "mode": "chose"
+                        },
+                        "thinkingConfig": {
+                          "nested": {
+                            "thinking_level": {
+                              "mode": "chose",
+                              "label": "Empty"
+                            },
+                            "include_thoughts": {
+                              "mode": "chose"
+                            }
+                          }
+                        },
+                        "mediaResolution": {
+                          "mode": "chose",
+                          "label": "Empty"
+                        },
+                        "responseMimeType": {
+                          "mode": "chose",
+                          "label": "Empty"
+                        },
+                        "responseModalities": {
+                          "mode": "chose"
+                        }
+                      }
+                    },
+                    "system_instruction": {
+                      "nested": {
+                        "parts": {
+                          "mode": "chose",
+                          "items": [
+                            null
+                          ]
+                        }
+                      }
+                    },
+                    "google_maps_context": {
+                      "mode": "chose"
+                    },
+                    "google_search_context": {
+                      "mode": "chose"
+                    },
+                    "file_search_store_context": {
+                      "mode": "chose"
+                    },
+                    "function_declarations_context": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {}
+                },
+                "designer": {
+                  "x": 1433,
+                  "y": 185
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:gemini-ai-q9zyjp",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "setupValidation": {
+                  "result": {
+                    "valid": true,
+                    "fields": []
+                  },
+                  "version": 1,
+                  "configuration": "9c9f4f35f897ddf6"
+                }
+              },
+              "parameters": {}
+            },
+            {
+              "id": 33,
+              "mapper": null,
+              "module": "builtin:BasicRouter",
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 35,
+                      "filter": {
+                        "name": "",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{4.result}}",
+                              "b": "Te dejo anotada",
+                              "o": "text:contain:ci"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "model": "gemini-3.5-flash",
+                        "contents": [
+                          {
+                            "role": "user",
+                            "parts": [
+                              {
+                                "text": "Cliente: {{2.entry[].changes[].value.messages[].text.body}}\nBot: {{4.result}}",
+                                "type": "text"
+                              }
+                            ]
+                          }
+                        ],
+                        "generationConfig": {
+                          "imageConfig": {},
+                          "thinkingConfig": {}
+                        },
+                        "system_instruction": {
+                          "parts": [
+                            {
+                              "text": "Tu única tarea es extraer datos de una reserva y responder ÚNICAMENTE con este JSON exacto, sin texto adicional, sin explicaciones, sin comillas triples:\r\n\r\n{\"nombre\": \"[nombre]\", \"inicio\": \"[fecha]T[hora]:00\", \"fin\": \"[fecha]T[hora+1 hora]:00\", \"personas\": [cantidad numérica], \"preferencias\": \"[alergias o preferencias alimentarias mencionadas]\", \"cumpleanos\": \"[fecha AAAA-MM-DD si el cliente mencionó espontáneamente que es su cumpleaños]\"}\r\n\r\nLa fecha va en formato AAAA-MM-DD y la hora en formato HH:MM. Si el cliente dijo \"mañana\", calculá la fecha real usando el día de hoy: {{formatDate(now; \"\"\"YYYY-MM-DD\"\" \"; \" \"\"America/Montevideo\"\"\")}}. Si algún dato falta, usá \"No especificado\". No le preguntes directamente al cliente por su cumpleaños ni por preferencias/alergias; completá esos campos solo si él los menciona espontáneamente en la conversación."
+                            }
+                          ]
+                        }
+                      },
+                      "module": "gemini-ai:createACompletionGeminiPro",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2409,
+                          "y": -792
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 38,
+                      "mapper": {
+                        "json": "{{35.result}}"
+                      },
+                      "module": "json:ParseJSON",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2409,
+                          "y": -792
+                        }
+                      }
+                    },
+                    {
+                      "id": 37,
+                      "mapper": {
+                        "end": "{{parseDate(38.fin; \"YYYY-MM-DDTHH:mm:ss\"; \"America/Montevideo\")}}",
+                        "start": "{{parseDate(38.inicio; \"YYYY-MM-DDTHH:mm:ss\"; \"America/Montevideo\")}}",
+                        "select": "detail",
+                        "summary": "Reserva {{38.nombre}}",
+                        "calendar": "YOUR_CALENDAR@gmail.com",
+                        "visibility": "default",
+                        "allDayEvent": false,
+                        "description": "Teléfono: {{2.entry[].changes[].value.messages[].from}}\nPersonas: {{38.personas}}",
+                        "transparency": "opaque",
+                        "conferenceDate": false,
+                        "guestPermissions": {
+                          "guestsCanModify": false,
+                          "guestsCanInviteOthers": true,
+                          "guestsCanSeeOtherGuests": true
+                        }
+                      },
+                      "module": "google-calendar:createAnEvent",
+                      "version": 5,
+                      "metadata": {
+                        "designer": {
+                          "x": 2733,
+                          "y": -781
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 7,
+                      "mapper": {
+                        "to": "{{2.entry[].changes[].value.messages[].from}}",
+                        "text": {
+                          "body": "{{4.result}}",
+                          "preview_url": false
+                        },
+                        "type": "text",
+                        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                      },
+                      "module": "whatsapp-business-cloud:sendMessage",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 3033,
+                          "y": -789
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 100,
+                      "mapper": {
+                        "from": "drive",
+                        "mode": "select",
+                        "values": {
+                          "3": "Cliente: {{2.entry[].changes[].value.messages[].text.body}}\nBot: {{4.result}}",
+                          "4": "{{if(38.nombre = \"No especificado\"; \"\"; 38.nombre)}}",
+                          "5": "{{if(38.preferencias = \"No especificado\"; \"\"; 38.preferencias)}}",
+                          "6": "{{formatDate(now; \"YYYY-MM-DD HH:mm\"; \"America/Montevideo\")}}",
+                          "7": "{{if(38.cumpleanos = \"No especificado\"; \"\"; \"Cumpleaños: \")}}{{if(38.cumpleanos = \"No especificado\"; \"\"; 38.cumpleanos)}}"
+                        },
+                        "sheetId": "Página1",
+                        "rowNumber": "{{12.`__ROW_NUMBER__`}}",
+                        "spreadsheetId": "YOUR_SPREADSHEET_ID",
+                        "includesHeaders": true,
+                        "useColumnHeaders": false,
+                        "valueInputOption": "USER_ENTERED"
+                      },
+                      "module": "google-sheets:updateRow",
+                      "version": 2,
+                      "metadata": {
+                        "designer": {
+                          "x": 3326,
+                          "y": -789
+                        }
+                      },
+                      "parameters": {}
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 101,
+                      "filter": {
+                        "name": "",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{4.result}}",
+                              "b": "Te dejo anotada",
+                              "o": "text:notcontain:ci"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "to": "{{2.entry[].changes[].value.messages[].from}}",
+                        "text": {
+                          "body": "{{4.result}}",
+                          "preview_url": false
+                        },
+                        "type": "text",
+                        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                      },
+                      "module": "whatsapp-business-cloud:sendMessage",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2106,
+                          "y": -218
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 102,
+                      "mapper": {
+                        "from": "drive",
+                        "mode": "select",
+                        "values": {
+                          "3": "Cliente: {{2.entry[].changes[].value.messages[].text.body}}\nBot: {{4.result}}",
+                          "6": "{{formatDate(now; \"YYYY-MM-DD HH:mm\"; \"America/Montevideo\")}}"
+                        },
+                        "sheetId": "Página1",
+                        "rowNumber": "{{12.`__ROW_NUMBER__`}}",
+                        "spreadsheetId": "YOUR_SPREADSHEET_ID",
+                        "includesHeaders": true,
+                        "useColumnHeaders": false,
+                        "valueInputOption": "USER_ENTERED"
+                      },
+                      "module": "google-sheets:updateRow",
+                      "version": 2,
+                      "metadata": {
+                        "designer": {
+                          "x": 2401,
+                          "y": -214
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 110,
+                      "filter": {
+                        "name": "Requiere atencion humana",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{4.result}}",
+                              "b": "te contactamos en breve",
+                              "o": "text:contain:ci"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "to": "+598XXXXXXXX",
+                        "text": {
+                          "body": "⚠️ Un cliente necesita atención de un encargado.\nNúmero: {{2.entry[].changes[].value.messages[].from}}\nMensaje del bot: {{4.result}}",
+                          "preview_url": false
+                        },
+                        "type": "text",
+                        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                      },
+                      "module": "whatsapp-business-cloud:sendMessage",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2639,
+                          "y": -201
+                        }
+                      },
+                      "parameters": {}
+                    }
+                  ]
+                }
+              ],
+              "version": 1,
+              "metadata": {
+                "designer": {
+                  "x": 1762,
+                  "y": -356
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 29,
+              "filter": {
+                "name": "",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{9.`__ROW_NUMBER__`}}",
+                      "o": "exist"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "model": "gemini-3.5-flash",
+                "contents": [
+                  {
+                    "role": "user",
+                    "parts": [
+                      {
+                        "text": "Historial de la conversacion hasta ahora:\n{{9.`3`}}\nMensaje nuevo del cliente:{{ifempty(120.mensajes; ifempty(2.entry[].changes[].value.messages[].text.body; 56.result))}}",
+                        "type": "text"
+                      }
+                    ]
+                  }
+                ],
+                "generationConfig": {
+                  "imageConfig": {},
+                  "thinkingConfig": {}
+                },
+                "system_instruction": {
+                  "parts": [
+                    {
+                      "text": "Tenes memoria de esta conversacion. Usa el historial que te paso para NO repetir preguntas que el cliente ya respondio antes.\nHoy es {{formatDate(now; \" \"\"dddd DD/MM/YYYY HH:mm\"\"\"; \" \"\"America/Montevideo\"\"\")}}. Usá esta fecha para saber que dia  es \"hoy\", \"mañana\", o si el restaurante está cerrado por ser lunes.\nSos el asistente virtual de Sabores de Puerto, un restaurante de Montevideo, Uruguay.\r\n\r\nTu función es atender clientes por WhatsApp de forma cálida, cercana, rápida y natural, como si fueras parte del equipo del restaurante.\r\n\r\nHablá en español rioplatense, usando “vos”, y evitá sonar como un robot.\r\n\r\nINFORMACIÓN DEL RESTAURANTE\r\n\r\nNombre: Sabores de Puerto\r\nCiudad: Montevideo, Uruguay\r\nDirección de prueba: Rambla 25 de Agosto de 1825 345, Ciudad Vieja, Montevideo.\r\nTeléfono de prueba: 2900 1234.\r\n\r\nHorarios:\r\n\r\nMartes a domingo: 12:00 a 16:00 y 20:00 a 24:00.\r\nLunes: cerrado.\r\nCocina: parrilla, pastas caseras, pescado y opciones vegetarianas.\r\n\r\n\r\n\r\nMENÚ\r\n\r\nLos principales tipos de comida son:\r\n\r\n🥩 Parrillada\r\n🍝 Pastas caseras\r\n🐟 Pescado del día\r\n🥗 Opciones vegetarianas\r\n\r\nPara la prueba, podés mencionar estos platos ficticios:\r\n\r\nParrillada para 2: $1.650.\r\nParrillada individual: $890.\r\nBife de chorizo con papas: $790.\r\nPasta casera del día: $590.\r\nRavioles de ricota y espinaca: $620.\r\nPescado del día con guarnición: $720.\r\nRisotto de vegetales: $610.\r\nEnsalada completa: $480.\r\nPapas fritas: $220.\r\nEnsalada mixta: $200.\r\nFlan casero: $220.\r\nChajá: $280.\r\nEstos precios son de prueba. Si el cliente pregunta por precios, utilizá estos valores.\r\n\r\nSi pregunta por un plato que no aparece en esta lista, decí:\r\n\r\n“Déjame confirmarte ese plato con el equipo 😊”\r\n\r\nNo inventes otros platos.\r\n\r\n\r\n\r\nRECOMENDACIONES\r\n\r\nSi preguntan “¿qué me recomendás?”, “¿qué es lo más pedido?” o “¿qué está bueno?”, podés responder:\r\n\r\n“La parrillada para 2 es una de las opciones que más recomendamos 🥩. Si preferís algo más liviano, el pescado del día también es una muy buena opción. Y si buscás algo sin carne, tenemos pastas y opciones vegetarianas 😊”\r\n\r\n\r\n\r\nDELIVERY\r\n\r\nSí, hacemos delivery.\r\n\r\nRadio: hasta 5 km.\r\nCosto: $150.\r\nDelivery gratis: pedidos mayores a $1.200.\r\n\r\nEjemplo:\r\n\r\n“¡Sí! 😊 Hacemos delivery hasta 5 km. El envío cuesta $150 y es gratis en pedidos mayores a $1.200.”\r\n\r\nSi pregunta si llegamos a una dirección:\r\n\r\n“Pasame tu dirección o la zona y te ayudo a verificar si está dentro de nuestro radio de 5 km 😊”\r\n\r\nPara esta prueba, considerá que las zonas dentro de 5 km incluyen:\r\n\r\nCiudad Vieja.\r\nCentro.\r\nCordón.\r\nBarrio Sur.\r\nPalermo.\r\nParque Rodó.\r\nPocitos.\r\nPunta Carretas.\r\nTres Cruces.\r\nSi pregunta por una zona que no esté en esta lista, decí que un encargado debe confirmar la cobertura.\r\n\r\n\r\n\r\nPEDIDOS DE DELIVERY\r\n\r\nSi el cliente quiere hacer un pedido, preguntá:\r\n\r\nQué quiere pedir.\r\nCantidad.\r\nDirección.\r\nNombre.\r\nTeléfono.\r\nForma de pago.\r\nEjemplo:\r\n\r\n“¡Dale! 😊 Para armar el pedido necesito saber qué querés pedir, la cantidad, tu nombre, dirección, teléfono y cómo preferís pagar.”\r\n\r\nFormas de pago de prueba:\r\n\r\nEfectivo.\r\nTarjeta.\r\nMercado Pago.\r\nSi el pedido supera $1.200, avisá:\r\n\r\n“Además, por superar los $1.200, el delivery te queda gratis 😊”\r\n\r\nNo inventes tiempos exactos de entrega. Para la prueba, podés decir:\r\n\r\n“El tiempo estimado es de aproximadamente 40 a 60 minutos, dependiendo de la demanda.”\r\n\r\n\r\n\r\nRESERVAS\r\n\r\nTomamos reservas.\r\n\r\nPara solicitar una reserva pedí:\r\n\r\nNombre.\r\nDía.\r\nHorario.\r\nCantidad de personas.\r\nEjemplo:\r\n\r\n“¡Claro! 😊 ¿Me pasás tu nombre, para qué día, a qué hora y para cuántas personas sería?”\r\n\r\nPara esta prueba, podés asumir que normalmente hay disponibilidad, excepto cuando el cliente pida:\r\n\r\nMás de 10 personas.\r\nEventos.\r\nMesas especiales.\r\nHorarios fuera del horario del restaurante.\r\nEn esos casos:\r\n\r\n“Para grupos grandes necesitamos confirmarlo con el equipo. Pasame tu nombre, cantidad de personas, día, horario y teléfono y te contactamos en breve 😊”\r\n\r\nPara reservas normales, podés responder:\r\n\r\n“¡Perfecto! Te dejo anotada la reserva para [día] a las [hora], para [cantidad] personas, a nombre de [nombre] 😊”\r\n\r\n\r\n\r\nCAMBIAR O CANCELAR UNA RESERVA\r\n\r\nSi quiere modificar una reserva, pedí:\r\n\r\nNombre.\r\nDía y horario original.\r\nNuevo día/horario.\r\nCantidad de personas.\r\nSi quiere cancelar:\r\n\r\n“Claro, no hay problema 😊 Pasame el nombre de la reserva y el día para poder identificarla.”\r\n\r\n\r\n\r\nGRUPOS Y EVENTOS\r\n\r\nSi preguntan por cumpleaños, reuniones, eventos, cenas empresariales o grupos grandes:\r\n\r\n“¡Claro! 😊 Podemos evaluar reservas para grupos y ocasiones especiales. Pasame tu nombre, fecha, horario aproximado, cantidad de personas, tipo de evento y teléfono y te contactamos en breve.”\r\n\r\nNo inventes precios de eventos ni paquetes especiales.\r\n\r\n\r\n\r\nCUMPLEAÑOS\r\n\r\nPara la prueba:\r\n\r\n“¡Sí! 🎉 Podemos recibir cumpleaños y celebraciones. Si querés organizar algo especial, pasame la fecha, cantidad de personas y un teléfono y te contactamos en breve.”\r\n\r\nNo prometas decoración, torta gratis ni descuentos.\r\n\r\n\r\n\r\nNIÑOS\r\n\r\nPara esta prueba:\r\n\r\n“Sí 😊 Somos un restaurante familiar y recibimos familias con niños.”\r\n\r\nSi preguntan por menú infantil:\r\n\r\n“Tenemos opciones que suelen funcionar muy bien para niños, como pastas, papas y platos simples. Si buscás algo específico, puedo consultarlo con el equipo.”\r\n\r\n\r\n\r\nMASCOTAS\r\n\r\nPara esta prueba:\r\n\r\n“Las mascotas son bienvenidas en el espacio exterior/terraza 🐶. En el salón interior no está permitido el ingreso de mascotas, salvo animales de asistencia.”\r\n\r\n\r\n\r\nESTACIONAMIENTO\r\n\r\nPara esta prueba:\r\n\r\n“No tenemos estacionamiento privado, pero hay estacionamiento en la vía pública y opciones de parking cercanas.”\r\n\r\n\r\n\r\nACCESIBILIDAD\r\n\r\nPara esta prueba:\r\n\r\n“Sí 😊 El ingreso principal es accesible para personas con movilidad reducida.”\r\n\r\nSi preguntan por detalles específicos del baño, mesas o accesos:\r\n\r\n“Para ese detalle puntual prefiero confirmarlo con el equipo para darte la información correcta.”\r\n\r\n\r\n\r\nFORMAS DE PAGO\r\n\r\nAceptamos:\r\n\r\nEfectivo.\r\nTarjetas de débito y crédito.\r\nMercado Pago.\r\nSi preguntan por una tarjeta o promoción bancaria específica:\r\n\r\n“No tengo confirmada esa promoción en este momento. Un encargado puede confirmártelo 😊”\r\n\r\n\r\n\r\nOPCIONES VEGETARIANAS\r\n\r\nSí, tenemos opciones vegetarianas.\r\n\r\nPodés mencionar:\r\n\r\nRavioles de ricota y espinaca.\r\nRisotto de vegetales.\r\nEnsalada completa.\r\nSi preguntan por opciones veganas:\r\n\r\n“Tenemos algunas opciones que pueden adaptarse, pero prefiero confirmarlo con cocina antes de asegurarte que un plato es 100% vegano.”\r\n\r\n\r\n\r\nALERGIAS\r\n\r\nIMPORTANTE:\r\n\r\nNunca garantices que un plato es seguro para una persona con una alergia severa.\r\n\r\nSi preguntan:\r\n\r\n“¿Es apto para celíacos?”\r\n“¿Tiene frutos secos?”\r\n“¿Tiene maní?”\r\n“¿Tiene gluten?”\r\n“¿Hay contaminación cruzada?”\r\n“¿Soy alérgico a los mariscos, qué puedo comer?”\r\n\r\nRespondé:\r\n\r\n“Entiendo 😊 Como se trata de una alergia o restricción alimentaria, prefiero que lo confirme directamente un encargado con cocina para darte una respuesta segura. Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\nNo inventes información sobre contaminación cruzada.\r\n\r\n\r\n\r\nINGREDIENTES\r\n\r\nSi el ingrediente está expresamente indicado en el menú, podés responder.\r\n\r\nSi no está indicado:\r\n\r\n“No tengo confirmado ese ingrediente. Prefiero consultarlo con cocina para darte la información correcta 😊”\r\n\r\n\r\n\r\nUBICACIÓN\r\n\r\nDirección de prueba:\r\n\r\n“Estamos en Rambla 25 de Agosto de 1825 345, Ciudad Vieja, Montevideo.”\r\n\r\nSi preguntan cómo llegar:\r\n\r\n“Estamos en Ciudad Vieja, sobre la Rambla 25 de Agosto de 1825. Si querés, te paso la ubicación exacta.”\r\n\r\n\r\n\r\nHORARIOS\r\n\r\nSi preguntan “¿están abiertos hoy?”:\r\n\r\nRespondé según el día:\r\n\r\nMartes a domingo:\r\n12:00 a 16:00 y 20:00 a 24:00.\r\n\r\nLunes:\r\n“Los lunes estamos cerrados 😊”\r\n\r\nSi preguntan por feriados:\r\n\r\n“Los horarios de feriados pueden variar. Para confirmarte el horario de ese día, un encargado puede ayudarte.”\r\n\r\n\r\n\r\nTAKE AWAY\r\n\r\nPara esta prueba:\r\n\r\n“Sí 😊 También podés retirar tu pedido por el local. Si querés hacer un pedido para retirar, decime qué te gustaría pedir y te ayudo.”\r\n\r\n\r\n\r\nPROMOCIONES\r\n\r\nPromoción ficticia para la prueba:\r\n\r\n“Los martes tenemos 10% de descuento en pastas caseras pagando en efectivo.”\r\n\r\nSi preguntan por otras promociones:\r\n\r\n“No tengo otra promoción confirmada en este momento, pero puedo consultarlo con el equipo 😊”\r\n\r\n\r\n\r\nPLATO DEL DÍA\r\n\r\nPara la prueba:\r\n\r\n“El pescado del día cambia según disponibilidad. Hoy podés consultar con el equipo cuál es la opción disponible.”\r\n\r\nNo inventes qué pescado es.\r\n\r\n\r\n\r\nMENÚ SIN GLUTEN\r\n\r\nNo afirmar que el restaurante tiene una cocina sin gluten.\r\n\r\nResponder:\r\n\r\n“Tenemos opciones que pueden adaptarse, pero por seguridad prefiero que un encargado confirme los ingredientes y la preparación con cocina.”\r\n\r\n\r\n\r\nMENÚ VEGANO\r\n\r\nNo afirmar que existe un menú vegano completo.\r\n\r\nResponder:\r\n\r\n“Tenemos algunas opciones vegetarianas y algunas preparaciones pueden adaptarse, pero prefiero confirmarlo con cocina según lo que necesites 😊”\r\n\r\n\r\n\r\nCARTA / MENÚ COMPLETO\r\n\r\nSi el cliente pide “pasame el menú”:\r\n\r\n“¡Claro! 😊 Tenemos:\r\n\r\n🥩 Parrillada para 2 — $1.650\r\n🥩 Parrillada individual — $890\r\n🥩 Bife de chorizo con papas — $790\r\n🍝 Pasta casera del día — $590\r\n🍝 Ravioles de ricota y espinaca — $620\r\n🐟 Pescado del día con guarnición — $720\r\n🥗 Risotto de vegetales — $610\r\n🥗 Ensalada completa — $480\r\n🍟 Papas fritas — $220\r\n🥗 Ensalada mixta — $200\r\n🍮 Flan casero — $220\r\n🍰 Chajá — $280\r\n\r\nSi querés, también puedo ayudarte a elegir 😊”\r\n\r\n\r\n\r\nRECLAMOS\r\n\r\nSi el cliente está enojado, recibió mal un pedido, tuvo una demora, faltó algo o quiere reclamar:\r\n\r\nNo discutas ni inventes compensaciones.\r\n\r\nRespondé:\r\n\r\n“Lamento mucho lo que pasó 😔 Quiero que podamos solucionarlo. Pasame tu nombre, teléfono y contame brevemente qué ocurrió y te contactamos en breve.”\r\n\r\n\r\n\r\nDEVOLUCIONES / REEMBOLSOS\r\n\r\nNo prometas devoluciones.\r\n\r\nRespondé:\r\n\r\n“Para gestionar un reintegro o devolución necesito que lo revise un encargado. Pasame tu nombre, teléfono y qué ocurrió y te contactamos en breve.”\r\n\r\n\r\n\r\nPEDIDO DE HABLAR CON UNA PERSONA\r\n\r\nSi el cliente pide explícitamente hablar con una persona, un humano, un encargado, un empleado, o dice cosas como \"quiero hablar con alguien\", \"pasame con una persona\", \"no quiero hablar con un bot\":\r\n\r\n“Entiendo 😊 Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\n\r\n\r\nINFORMACIÓN QUE NO CONOCÉS\r\n\r\nSi el cliente pregunta algo que no está en este prompt, NO INVENTES.\r\n\r\nUsá:\r\n\r\n“No quiero darte una información incorrecta 😊 Prefiero confirmarlo con un encargado de Sabores de Puerto. Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\n\r\n\r\nTONO\r\n\r\nSiempre:\r\n\r\nCálido.\r\nCercano.\r\nNatural.\r\nAmable.\r\nBreve.\r\nRioplatense.\r\nUsá “vos”.\r\nPodés usar emojis, pero sin exagerar.\r\nNunca digas:\r\n\r\n“Como inteligencia artificial…”\r\n“Como modelo de lenguaje…”\r\n“No tengo acceso a…”\r\n“Mi base de datos…”\r\n“No estoy programado para…”\r\n\r\nEn su lugar, decí:\r\n\r\n“Déjame confirmarlo con el equipo 😊”\r\n\r\no\r\n\r\n“Prefiero que un encargado te lo confirme para darte la información correcta.”\r\n\r\n\r\n\r\nREGLAS IMPORTANTES\r\n\r\nNunca inventes información fuera de este prompt.\r\n\r\nCada vez que derives una consulta a un encargado (alergias, reclamos, devoluciones, grupos grandes, eventos, información desconocida, o pedido de hablar con una persona), cerrá siempre tu respuesta con esta frase exacta, sin cambiar ni una palabra: “te contactamos en breve”.\r\nSi la información está en este prompt, respondela directamente.\r\nSi el cliente hace varias preguntas, respondé todas.\r\nNo hagas preguntas innecesarias.\r\nPara reservas, pedí nombre, día, hora y cantidad de personas.\r\nPara delivery, pedí pedido, nombre, teléfono, dirección y forma de pago.\r\nPara grupos grandes y eventos, derivá a un encargado.\r\nPara alergias específicas, derivá a un encargado.\r\nPara reclamos, derivá a un encargado.\r\nPara cualquier información desconocida, derivá a un encargado.\r\nNunca garantices seguridad alimentaria ante una alergia.\r\nNo prometas descuentos, compensaciones ni beneficios que no estén indicados.\r\nNo confirmes disponibilidad de una reserva si no podés comprobarla.\r\nRespondé de forma natural y conversacional.\r\nSi el cliente solamente saluda, saludalo y preguntale en qué podés ayudarlo.\r\n\r\n\r\nEJEMPLOS DE CONVERSACIÓN\r\n\r\nCliente: “Hola”\r\n\r\nBot:\r\n“¡Hola! 😊 Bienvenido/a a Sabores de Puerto. ¿En qué te puedo ayudar?”\r\n\r\nCliente: “¿A qué hora abren?”\r\n\r\nBot:\r\n“De martes a domingo estamos de 12 a 16 y de 20 a 24 😊 Los lunes estamos cerrados.”\r\n\r\nCliente: “Quiero reservar”\r\n\r\nBot:\r\n“¡Claro! 😊 ¿Me pasás tu nombre, para qué día, a qué hora y para cuántas personas?”\r\n\r\nCliente: “¿Hacen delivery?”\r\n\r\nBot:\r\n“¡Sí! Hacemos delivery hasta 5 km. Sale $150 y es gratis en pedidos mayores a $1.200 😊”\r\n\r\nCliente: “¿Tienen vegetarianos?”\r\n\r\nBot:\r\n“¡Sí! 🥗 Tenemos varias opciones vegetarianas, como ravioles de ricota y espinaca, risotto de vegetales y ensalada completa.”\r\n\r\nCliente: “Soy celíaco, ¿qué puedo comer?”\r\n\r\nBot:\r\n“Entiendo 😊 Para una restricción como la celiaquía prefiero que lo confirme directamente un encargado con cocina para darte una respuesta segura. Pasame tu nombre y teléfono y te contactamos en breve.”\r\n\r\nCliente: “¿Tienen estacionamiento?”\r\n\r\nBot:\r\n“No tenemos estacionamiento privado, pero hay estacionamiento en la vía pública y opciones de parking cercanas 😊”\r\n\r\nCliente: “Quiero festejar mi cumpleaños para 15 personas”\r\n\r\nBot:\r\n“¡Qué lindo! 🎉 Para un grupo de ese tamaño necesitamos coordinarlo con un encargado. Pasame tu nombre, fecha, horario aproximado, cantidad de personas y teléfono y te contactamos para organizarlo.”\r\n\r\nCliente: “¿Aceptan Mercado Pago?”\r\n\r\nBot:\r\n“Sí 😊 Aceptamos Mercado Pago, además de efectivo y tarjetas.”\r\n\r\nCliente: “¿Puedo ir con mi perro?”\r\n\r\nBot:\r\n“Sí 🐶 Las mascotas son bienvenidas en nuestra terraza o espacio exterior. En el salón interior no están permitidas, salvo animales de asistencia.”\r\n\r\nCliente: “¿Cuál es el plato más rico?”\r\n\r\nBot:\r\n“Si querés algo bien de restaurante, te recomiendo la parrillada para 2 🥩. Si preferís algo más liviano, el pescado del día es una muy buena opción. Y si no comés carne, tenemos varias opciones vegetarianas 😊”\r\n\r\nCliente: “No me llegó bien el pedido”\r\n\r\nBot:\r\n“Uy, lamento mucho lo que pasó 😔 Pasame tu nombre, teléfono y contame qué ocurrió con el pedido. Un encargado se va a contactar con vos para solucionarlo.”\r\n\r\nCliente: “¿Tienen una mesa para 20 personas?”\r\n\r\nBot:\r\n“Para 20 personas necesitamos coordinarlo directamente con el equipo 😊 Pasame tu nombre, fecha, horario, cantidad de personas y teléfono y un encargado te contacta.”\r\n\r\nCliente: “¿Dónde quedan?”\r\n\r\nBot:\r\n“Estamos en Rambla 25 de Agosto de 1825 345, Ciudad Vieja, Montevideo 😊”\r\n\r\nCliente: “¿Abren los lunes?”\r\n\r\nBot:\r\n“No, los lunes estamos cerrados 😊 Abrimos de martes a domingo.”\r\n\r\nCliente: “¿Cuál es el teléfono?”\r\n\r\nBot:\r\n“Podés contactarnos al 2900 1234 😊”\r\n\r\n\r\n\r\nOBJETIVO FINAL\r\n\r\nTu objetivo es que el cliente sienta que está hablando con alguien real del equipo de Sabores de Puerto.\r\n\r\nRespondé rápido, con calidez y sin dar vueltas.\r\n\r\nSi podés resolver la consulta con la información disponible, resolvela.\r\n\r\nSi necesitás información que no está disponible o la consulta requiere criterio humano, derivala a un encargado.\r\n\r\nNunca inventes una respuesta cuando no tengas información suficiente."
+                    }
+                  ]
+                }
+              },
+              "module": "gemini-ai:createACompletionGeminiPro",
+              "onerror": [
+                {
+                  "id": 104,
+                  "mapper": {
+                    "to": "{{2.entry[].changes[].value.messages[].from}}",
+                    "text": {
+                      "body": "¡Uy, perdón la demora! 😅 Estamos a full en el restaurante en este momento. Dame un minutito y te contesto enseguida, o si es urgente llamanos al 2900 1234 💛",
+                      "preview_url": false
+                    },
+                    "type": "text",
+                    "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                  },
+                  "module": "whatsapp-business-cloud:sendMessage",
+                  "version": 1,
+                  "metadata": {
+                    "designer": {
+                      "x": 1245,
+                      "y": 1614
+                    }
+                  },
+                  "parameters": {}
+                }
+              ],
+              "version": 1,
+              "metadata": {
+                "expect": [
+                  {
+                    "name": "model",
+                    "type": "select",
+                    "label": "AI Model",
+                    "required": true
+                  },
+                  {
+                    "name": "contents",
+                    "spec": [
+                      {
+                        "name": "role",
+                        "type": "select",
+                        "label": "Role",
+                        "options": [
+                          {
+                            "label": "User",
+                            "value": "user"
+                          },
+                          {
+                            "label": "Model",
+                            "value": "model"
+                          }
+                        ],
+                        "required": true
+                      },
+                      {
+                        "name": "parts",
+                        "spec": [
+                          {
+                            "name": "type",
+                            "type": "select",
+                            "label": "Message Type",
+                            "options": [
+                              {
+                                "label": "Text",
+                                "value": "text",
+                                "nested": [
+                                  {
+                                    "name": "text",
+                                    "type": "text",
+                                    "label": "Text",
+                                    "required": true
+                                  }
+                                ]
+                              },
+                              {
+                                "label": "File",
+                                "value": "file",
+                                "nested": [
+                                  {
+                                    "name": "file_data",
+                                    "spec": [
+                                      {
+                                        "name": "mime_type",
+                                        "type": "text",
+                                        "label": "Mime Type",
+                                        "required": true
+                                      },
+                                      {
+                                        "help": "You can use public or signed URLs as input by using the URLs.",
+                                        "name": "file_uri",
+                                        "type": "text",
+                                        "label": "File URI",
+                                        "required": true
+                                      }
+                                    ],
+                                    "type": "collection",
+                                    "label": "File Data",
+                                    "required": true
+                                  }
+                                ]
+                              },
+                              {
+                                "label": "Function Call",
+                                "value": "functionCall",
+                                "nested": [
+                                  {
+                                    "name": "functionCall",
+                                    "spec": [
+                                      {
+                                        "help": "The name of the function to call.",
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Name",
+                                        "required": true,
+                                        "validate": {
+                                          "max": 64
+                                        }
+                                      },
+                                      {
+                                        "help": "The function parameters and values in JSON object format.",
+                                        "name": "args",
+                                        "type": "json",
+                                        "label": "Arguments"
+                                      },
+                                      {
+                                        "help": "The unique ID of the function call.",
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "Function Call ID"
+                                      }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Function Call"
+                                  }
+                                ]
+                              },
+                              {
+                                "label": "Function Response",
+                                "value": "functionResponse",
+                                "nested": [
+                                  {
+                                    "name": "functionResponse",
+                                    "spec": [
+                                      {
+                                        "help": "The name of the function to call.",
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Name",
+                                        "required": true,
+                                        "validate": {
+                                          "max": 64
+                                        }
+                                      },
+                                      {
+                                        "help": "The function response in JSON object format.",
+                                        "name": "response",
+                                        "type": "json",
+                                        "label": "Response",
+                                        "required": true
+                                      }
+                                    ],
+                                    "type": "collection",
+                                    "label": "Function Response"
+                                  }
+                                ]
+                              }
+                            ],
+                            "required": true
+                          },
+                          {
+                            "name": "thoughtSignature",
+                            "type": "text",
+                            "label": "Thought Signature"
+                          }
+                        ],
+                        "type": "array",
+                        "label": "Parts",
+                        "required": true
+                      }
+                    ],
+                    "type": "array",
+                    "label": "Messages",
+                    "required": true
+                  },
+                  {
+                    "name": "system_instruction",
+                    "spec": [
+                      {
+                        "name": "parts",
+                        "spec": {
+                          "name": "value",
+                          "spec": [
+                            {
+                              "name": "text",
+                              "type": "text",
+                              "label": "Value"
+                            }
+                          ],
+                          "type": "collection",
+                          "label": "Prompt"
+                        },
+                        "type": "array",
+                        "label": "Prompts"
+                      }
+                    ],
+                    "type": "collection",
+                    "label": "System Instructions"
+                  },
+                  {
+                    "name": "safetySettings",
+                    "spec": [
+                      {
+                        "name": "category",
+                        "type": "select",
+                        "label": "Category",
+                        "options": [
+                          {
+                            "label": "Harassment content",
+                            "value": "HARM_CATEGORY_HARASSMENT"
+                          },
+                          {
+                            "label": "Hate speech and content",
+                            "value": "HARM_CATEGORY_HATE_SPEECH"
+                          },
+                          {
+                            "label": "Sexually explicit content.",
+                            "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT"
+                          },
+                          {
+                            "label": "Dangerous content:",
+                            "value": "HARM_CATEGORY_DANGEROUS_CONTENT"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "threshold",
+                        "type": "select",
+                        "label": "Threshold",
+                        "options": [
+                          {
+                            "label": "Block low and above.",
+                            "value": "BLOCK_LOW_AND_ABOVE"
+                          },
+                          {
+                            "label": "Block medium and above.",
+                            "value": "BLOCK_MEDIUM_AND_ABOVE"
+                          },
+                          {
+                            "label": "Block only high.",
+                            "value": "BLOCK_ONLY_HIGH"
+                          },
+                          {
+                            "label": "Block none.",
+                            "value": "BLOCK_NONE"
+                          }
+                        ]
+                      }
+                    ],
+                    "type": "array",
+                    "label": "Safety Settings"
+                  },
+                  {
+                    "name": "generationConfig",
+                    "spec": [
+                      {
+                        "name": "stopSequences",
+                        "spec": {
+                          "name": "value",
+                          "type": "text",
+                          "label": "Stop Sequence"
+                        },
+                        "type": "array",
+                        "label": "Stop Sequences"
+                      },
+                      {
+                        "name": "responseModalities",
+                        "type": "select",
+                        "label": "Response Modalities",
+                        "multiple": true,
+                        "validate": {
+                          "enum": [
+                            "text",
+                            "image"
+                          ]
+                        }
+                      },
+                      {
+                        "name": "maxOutputTokens",
+                        "type": "number",
+                        "label": "Max Output Tokens"
+                      },
+                      {
+                        "name": "temperature",
+                        "type": "number",
+                        "label": "Temperature",
+                        "validate": {
+                          "max": 1,
+                          "min": 0
+                        }
+                      },
+                      {
+                        "name": "topP",
+                        "type": "number",
+                        "label": "Top P",
+                        "validate": {
+                          "max": 1,
+                          "min": 0
+                        }
+                      },
+                      {
+                        "name": "topK",
+                        "type": "number",
+                        "label": "Top K"
+                      },
+                      {
+                        "name": "thinkingConfig",
+                        "spec": [
+                          {
+                            "name": "thinkingBudget",
+                            "type": "number",
+                            "label": "Thinking Budget"
+                          },
+                          {
+                            "name": "include_thoughts",
+                            "type": "boolean",
+                            "label": "Include Thoughts"
+                          },
+                          {
+                            "name": "thinking_level",
+                            "type": "select",
+                            "label": "Thinking Level",
+                            "validate": {
+                              "enum": [
+                                "low",
+                                "high"
+                              ]
+                            }
+                          }
+                        ],
+                        "type": "collection",
+                        "label": "Thinking Config"
+                      },
+                      {
+                        "name": "mediaResolution",
+                        "type": "select",
+                        "label": "Media Resolution",
+                        "validate": {
+                          "enum": [
+                            "media_resolution_low",
+                            "media_resolution_medium",
+                            "media_resolution_high"
+                          ]
+                        }
+                      },
+                      {
+                        "name": "imageConfig",
+                        "spec": [
+                          {
+                            "name": "imageSize",
+                            "type": "select",
+                            "label": "Image Size",
+                            "validate": {
+                              "enum": [
+                                "1K",
+                                "2K",
+                                "4K"
+                              ]
+                            }
+                          }
+                        ],
+                        "type": "collection",
+                        "label": "Image Configuration"
+                      },
+                      {
+                        "name": "responseMimeType",
+                        "type": "select",
+                        "label": "Response Format"
+                      }
+                    ],
+                    "type": "collection",
+                    "label": "Generation configurations"
+                  },
+                  {
+                    "name": "tools",
+                    "type": "any",
+                    "label": "Tools"
+                  },
+                  {
+                    "name": "tool_config",
+                    "type": "any",
+                    "label": "Tool Config"
+                  },
+                  {
+                    "name": "function_declarations_context",
+                    "type": "boolean",
+                    "label": "Function Declarations Grounding"
+                  },
+                  {
+                    "name": "url_context",
+                    "type": "boolean",
+                    "label": "URL Context"
+                  },
+                  {
+                    "name": "google_search_context",
+                    "type": "boolean",
+                    "label": "Google Search Grounding"
+                  },
+                  {
+                    "name": "code_execution",
+                    "type": "boolean",
+                    "label": "Code Execution"
+                  },
+                  {
+                    "name": "google_maps_context",
+                    "type": "boolean",
+                    "label": "Google Maps Grounding"
+                  },
+                  {
+                    "name": "file_search_store_context",
+                    "type": "boolean",
+                    "label": "File Search Store Context"
+                  },
+                  {
+                    "name": "serviceTier",
+                    "type": "select",
+                    "label": "Inference Service Tier"
+                  }
+                ],
+                "restore": {
+                  "expect": {
+                    "model": {
+                      "mode": "chose",
+                      "label": "Gemini 3.5 Flash"
+                    },
+                    "contents": {
+                      "mode": "chose",
+                      "items": [
+                        {
+                          "role": {
+                            "mode": "chose",
+                            "label": "User"
+                          },
+                          "parts": {
+                            "mode": "chose",
+                            "items": [
+                              {
+                                "type": {
+                                  "mode": "chose",
+                                  "label": "Text"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "serviceTier": {
+                      "mode": "chose",
+                      "label": "Empty"
+                    },
+                    "url_context": {
+                      "mode": "chose"
+                    },
+                    "code_execution": {
+                      "mode": "chose"
+                    },
+                    "safetySettings": {
+                      "mode": "chose"
+                    },
+                    "generationConfig": {
+                      "nested": {
+                        "imageConfig": {
+                          "nested": {
+                            "imageSize": {
+                              "mode": "chose",
+                              "label": "Empty"
+                            }
+                          }
+                        },
+                        "stopSequences": {
+                          "mode": "chose"
+                        },
+                        "thinkingConfig": {
+                          "nested": {
+                            "thinking_level": {
+                              "mode": "chose",
+                              "label": "Empty"
+                            },
+                            "include_thoughts": {
+                              "mode": "chose"
+                            }
+                          }
+                        },
+                        "mediaResolution": {
+                          "mode": "chose",
+                          "label": "Empty"
+                        },
+                        "responseMimeType": {
+                          "mode": "chose",
+                          "label": "Empty"
+                        },
+                        "responseModalities": {
+                          "mode": "chose"
+                        }
+                      }
+                    },
+                    "system_instruction": {
+                      "nested": {
+                        "parts": {
+                          "mode": "chose",
+                          "items": [
+                            null
+                          ]
+                        }
+                      }
+                    },
+                    "google_maps_context": {
+                      "mode": "chose"
+                    },
+                    "google_search_context": {
+                      "mode": "chose"
+                    },
+                    "file_search_store_context": {
+                      "mode": "chose"
+                    },
+                    "function_declarations_context": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {}
+                },
+                "designer": {
+                  "x": 995,
+                  "y": 999
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:gemini-ai-q9zyjp",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "setupValidation": {
+                  "result": {
+                    "valid": true,
+                    "fields": []
+                  },
+                  "version": 1,
+                  "configuration": "d338c43add6de598"
+                }
+              },
+              "parameters": {}
+            },
+            {
+              "id": 42,
+              "mapper": null,
+              "module": "builtin:BasicRouter",
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 126,
+                      "filter": {
+                        "name": "",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{29.result}}",
+                              "b": "Te dejo anotada",
+                              "o": "text:contain:ci"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "key": "{{2.entry[].changes[].value.messages[].from}}",
+                        "data": {
+                          "mensajes": "",
+                          "telefono": "{{2.entry[].changes[].value.messages[].from}}",
+                          "ultima_actualizacion": ""
+                        },
+                        "overwrite": true
+                      },
+                      "module": "datastore:AddRecord",
+                      "version": 1,
+                      "metadata": {
+                        "expect": [
+                          {
+                            "name": "key",
+                            "type": "text",
+                            "label": "Key"
+                          },
+                          {
+                            "name": "overwrite",
+                            "type": "boolean",
+                            "label": "Overwrite an existing record",
+                            "required": true
+                          },
+                          {
+                            "name": "data",
+                            "spec": [
+                              {
+                                "name": "telefono",
+                                "type": "text",
+                                "label": null
+                              },
+                              {
+                                "name": "mensajes",
+                                "type": "text",
+                                "label": null
+                              },
+                              {
+                                "name": "ultima_actualizacion",
+                                "type": "date",
+                                "label": null
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "Record"
+                          }
+                        ],
+                        "restore": {
+                          "expect": {
+                            "overwrite": {
+                              "mode": "chose"
+                            }
+                          },
+                          "parameters": {
+                            "datastore": {
+                              "label": "Buffer de mensajes bot"
+                            }
+                          }
+                        },
+                        "designer": {
+                          "x": 2125,
+                          "y": 866
+                        },
+                        "parameters": [
+                          {
+                            "name": "datastore",
+                            "type": "datastore",
+                            "label": "Data store",
+                            "required": true
+                          }
+                        ],
+                        "setupValidation": {
+                          "result": {
+                            "valid": true,
+                            "fields": []
+                          },
+                          "version": 1,
+                          "configuration": "1778baf36e1bd872"
+                        }
+                      },
+                      "parameters": {
+                        "datastore": null
+                      }
+                    },
+                    {
+                      "id": 43,
+                      "mapper": {
+                        "model": "gemini-3.5-flash",
+                        "contents": [
+                          {
+                            "role": "user",
+                            "parts": [
+                              {
+                                "text": "{{9.`3`}}\nCliente: {{2.entry[].changes[].value.messages[].text.body}}\nBot: {{29.result}}",
+                                "type": "text"
+                              }
+                            ]
+                          }
+                        ],
+                        "generationConfig": {
+                          "imageConfig": {},
+                          "thinkingConfig": {}
+                        },
+                        "system_instruction": {
+                          "parts": [
+                            {
+                              "text": "Tu única tarea es extraer datos de una reserva y responder ÚNICAMENTE con este JSON exacto, sin texto adicional, sin comillas triples, sin explicaciones:\r\n\r\n{\"nombre\": \"[nombre]\", \"inicio\": \"AAAA-MM-DDTHH:MM:00\", \"fin\": \"AAAA-MM-DDTHH:MM:00\", \"personas\": [cantidad], \"preferencias\": \"[alergias o preferencias alimentarias mencionadas]\", \"cumpleanos\": \"[fecha AAAA-MM-DD si el cliente mencionó espontáneamente que es su cumpleaños]\"}\r\n\r\nEjemplo real: {\"nombre\": \"Cami\", \"inicio\": \"2026-09-10T20:00:00\", \"fin\": \"2026-09-10T21:00:00\", \"personas\": 2, \"preferencias\": \"No especificado\", \"cumpleanos\": \"No especificado\"}\r\n\r\nReglas para la fecha: usá SIEMPRE 4 dígitos para el año, 2 para mes, 2 para día, con la letra T uniendo fecha y hora, y :00 al final de los segundos. Nunca agregues palabras, solo el JSON.\r\n\r\nHoy es {{formatDate(now; \"\"\"YYYY-MM-DD\"\" \"; \" \"\"America/Montevideo\"\" \")}}. Si el cliente dice \"mañana\", sumale un día a esta fecha. No le preguntes directamente al cliente por su cumpleaños ni por preferencias/alergias; completá esos campos solo si él los menciona espontáneamente en la conversación."
+                            }
+                          ]
+                        }
+                      },
+                      "module": "gemini-ai:createACompletionGeminiPro",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2425,
+                          "y": 866
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 44,
+                      "mapper": {
+                        "json": "{{43.result}}"
+                      },
+                      "module": "json:ParseJSON",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2674,
+                          "y": 850
+                        }
+                      }
+                    },
+                    {
+                      "id": 45,
+                      "mapper": {
+                        "end": "{{parseDate(44.fin; \"YYYY-MM-DDTHH:mm:ss\"; \"America/Montevideo\")}}",
+                        "start": "{{parseDate(44.inicio; \"YYYY-MM-DDTHH:mm:ss\"; \"America/Montevideo\")}}",
+                        "select": "detail",
+                        "summary": "Reserva {{44.nombre}}",
+                        "calendar": "YOUR_CALENDAR@gmail.com",
+                        "visibility": "default",
+                        "allDayEvent": false,
+                        "description": "Teléfono: {{2.entry[].changes[].value.messages[].from}}\nPersonas: {{44.personas}}",
+                        "transparency": "opaque",
+                        "conferenceDate": false,
+                        "guestPermissions": {
+                          "guestsCanModify": false,
+                          "guestsCanInviteOthers": true,
+                          "guestsCanSeeOtherGuests": true
+                        }
+                      },
+                      "module": "google-calendar:createAnEvent",
+                      "version": 5,
+                      "metadata": {
+                        "designer": {
+                          "x": 2930,
+                          "y": 855
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 50,
+                      "mapper": {
+                        "from": "drive",
+                        "mode": "select",
+                        "values": {
+                          "3": "{{9.`3`}}\nCliente: {{2.entry[].changes[].value.messages[].text.body}}\nBot: {{29.result}}",
+                          "4": "{{if(44.nombre = \"No especificado\"; 9.`4`; 44.nombre)}}",
+                          "5": "{{if(44.preferencias = \"No especificado\"; 9.`5`; 44.preferencias)}}",
+                          "6": "{{formatDate(now; \"YYYY-MM-DD HH:mm\"; \"America/Montevideo\")}}",
+                          "7": "{{if(44.cumpleanos = \"No especificado\"; 9.`7`; \"Cumpleaños: \")}}{{if(44.cumpleanos = \"No especificado\"; \"\"; 44.cumpleanos)}}"
+                        },
+                        "sheetId": "Página1",
+                        "rowNumber": "{{9.`__ROW_NUMBER__`}}",
+                        "spreadsheetId": "YOUR_SPREADSHEET_ID",
+                        "includesHeaders": true,
+                        "useColumnHeaders": false,
+                        "valueInputOption": "USER_ENTERED"
+                      },
+                      "module": "google-sheets:updateRow",
+                      "version": 2,
+                      "metadata": {
+                        "designer": {
+                          "x": 3171,
+                          "y": 873
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 51,
+                      "mapper": {
+                        "to": "{{2.entry[].changes[].value.messages[].from}}",
+                        "text": {
+                          "body": "{{29.result}}",
+                          "preview_url": false
+                        },
+                        "type": "text",
+                        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                      },
+                      "module": "whatsapp-business-cloud:sendMessage",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 3416,
+                          "y": 875
+                        }
+                      },
+                      "parameters": {}
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 125,
+                      "filter": {
+                        "name": "",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{29.result}}",
+                              "b": "Te dejo anotada",
+                              "o": "text:notcontain:ci"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "key": "{{2.entry[].changes[].value.messages[].from}}",
+                        "data": {
+                          "mensajes": "",
+                          "telefono": "{{2.entry[].changes[].value.messages[].from}}",
+                          "ultima_actualizacion": ""
+                        },
+                        "overwrite": true
+                      },
+                      "module": "datastore:AddRecord",
+                      "version": 1,
+                      "metadata": {
+                        "expect": [
+                          {
+                            "name": "key",
+                            "type": "text",
+                            "label": "Key"
+                          },
+                          {
+                            "name": "overwrite",
+                            "type": "boolean",
+                            "label": "Overwrite an existing record",
+                            "required": true
+                          },
+                          {
+                            "name": "data",
+                            "spec": [
+                              {
+                                "name": "telefono",
+                                "type": "text",
+                                "label": null
+                              },
+                              {
+                                "name": "mensajes",
+                                "type": "text",
+                                "label": null
+                              },
+                              {
+                                "name": "ultima_actualizacion",
+                                "type": "date",
+                                "label": null
+                              }
+                            ],
+                            "type": "collection",
+                            "label": "Record"
+                          }
+                        ],
+                        "restore": {
+                          "expect": {
+                            "overwrite": {
+                              "mode": "chose"
+                            }
+                          },
+                          "parameters": {
+                            "datastore": {
+                              "label": "Buffer de mensajes bot"
+                            }
+                          }
+                        },
+                        "designer": {
+                          "x": 2084,
+                          "y": 1206
+                        },
+                        "parameters": [
+                          {
+                            "name": "datastore",
+                            "type": "datastore",
+                            "label": "Data store",
+                            "required": true
+                          }
+                        ],
+                        "setupValidation": {
+                          "result": {
+                            "valid": true,
+                            "fields": []
+                          },
+                          "version": 1,
+                          "configuration": "1778baf36e1bd872"
+                        }
+                      },
+                      "parameters": {
+                        "datastore": null
+                      }
+                    },
+                    {
+                      "id": 36,
+                      "mapper": {
+                        "from": "drive",
+                        "mode": "select",
+                        "values": {
+                          "3": "{{9.`3`}}\nCliente: {{2.entry[].changes[].value.messages[].text.body}}\nBot: {{29.result}}",
+                          "6": "{{formatDate(now; \"YYYY-MM-DD HH:mm\"; \"America/Montevideo\")}}"
+                        },
+                        "sheetId": "Página1",
+                        "rowNumber": "{{9.`__ROW_NUMBER__`}}",
+                        "spreadsheetId": "YOUR_SPREADSHEET_ID",
+                        "includesHeaders": true,
+                        "useColumnHeaders": false,
+                        "valueInputOption": "USER_ENTERED"
+                      },
+                      "module": "google-sheets:updateRow",
+                      "version": 2,
+                      "metadata": {
+                        "designer": {
+                          "x": 2384,
+                          "y": 1206
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 30,
+                      "mapper": {
+                        "to": "{{2.entry[].changes[].value.messages[].from}}",
+                        "text": {
+                          "body": "{{29.result}}",
+                          "preview_url": false
+                        },
+                        "type": "text",
+                        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                      },
+                      "module": "whatsapp-business-cloud:sendMessage",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2674,
+                          "y": 1218
+                        }
+                      },
+                      "parameters": {}
+                    },
+                    {
+                      "id": 111,
+                      "filter": {
+                        "name": "Requiere atencion humana",
+                        "conditions": [
+                          [
+                            {
+                              "a": "{{29.result}}",
+                              "b": "te contactamos en breve",
+                              "o": "text:contain:ci"
+                            }
+                          ]
+                        ]
+                      },
+                      "mapper": {
+                        "to": "+598XXXXXXXX",
+                        "text": {
+                          "body": "⚠️ Un cliente necesita atención de un encargado.\nNúmero: {{2.entry[].changes[].value.messages[].from}}\nMensaje del bot: {{29.result}}",
+                          "preview_url": false
+                        },
+                        "type": "text",
+                        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+                      },
+                      "module": "whatsapp-business-cloud:sendMessage",
+                      "version": 1,
+                      "metadata": {
+                        "designer": {
+                          "x": 2976,
+                          "y": 1241
+                        }
+                      },
+                      "parameters": {}
+                    }
+                  ]
+                }
+              ],
+              "version": 1,
+              "metadata": {
+                "designer": {
+                  "x": 1753,
+                  "y": 1031
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "version": 1,
+      "metadata": {
+        "designer": {
+          "x": 587,
+          "y": 544
+        }
+      }
+    }
+  ],
+  "name": "WhatsApp Restaurant Bot (Gemini + Sheets + Calendar)",
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "designer": {
+      "orphans": []
+    },
+    "scenario": {
+      "dlq": true,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "immediately",
+    "maximum_runs_per_minute": 100
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}
