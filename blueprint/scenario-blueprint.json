@@ -5,150 +5,7 @@
       "mapper": {},
       "module": "gateway:CustomWebHook",
       "version": 1,
-      "metadata": {
-        "designer": {
-          "x": -2221,
-          "y": 486
-        },
-        "interface": [
-          {
-            "name": "object",
-            "type": "text"
-          },
-          {
-            "name": "entry",
-            "spec": {
-              "spec": [
-                {
-                  "name": "id",
-                  "type": "text"
-                },
-                {
-                  "name": "changes",
-                  "spec": {
-                    "spec": [
-                      {
-                        "name": "value",
-                        "spec": [
-                          {
-                            "name": "messaging_product",
-                            "type": "text"
-                          },
-                          {
-                            "name": "metadata",
-                            "spec": [
-                              {
-                                "name": "display_phone_number",
-                                "type": "text"
-                              },
-                              {
-                                "name": "phone_number_id",
-                                "type": "text"
-                              }
-                            ],
-                            "type": "collection"
-                          },
-                          {
-                            "name": "contacts",
-                            "spec": {
-                              "spec": [
-                                {
-                                  "name": "profile",
-                                  "spec": [
-                                    {
-                                      "name": "name",
-                                      "type": "text"
-                                    }
-                                  ],
-                                  "type": "collection"
-                                },
-                                {
-                                  "name": "wa_id",
-                                  "type": "text"
-                                },
-                                {
-                                  "name": "user_id",
-                                  "type": "text"
-                                }
-                              ],
-                              "type": "collection"
-                            },
-                            "type": "array"
-                          },
-                          {
-                            "name": "messages",
-                            "spec": {
-                              "spec": [
-                                {
-                                  "name": "from",
-                                  "type": "text"
-                                },
-                                {
-                                  "name": "from_user_id",
-                                  "type": "text"
-                                },
-                                {
-                                  "name": "id",
-                                  "type": "text"
-                                },
-                                {
-                                  "name": "timestamp",
-                                  "type": "text"
-                                },
-                                {
-                                  "name": "type",
-                                  "type": "text"
-                                },
-                                {
-                                  "name": "audio",
-                                  "spec": [
-                                    {
-                                      "name": "mime_type",
-                                      "type": "text"
-                                    },
-                                    {
-                                      "name": "sha256",
-                                      "type": "text"
-                                    },
-                                    {
-                                      "name": "id",
-                                      "type": "text"
-                                    },
-                                    {
-                                      "name": "url",
-                                      "type": "text"
-                                    },
-                                    {
-                                      "name": "voice",
-                                      "type": "boolean"
-                                    }
-                                  ],
-                                  "type": "collection"
-                                }
-                              ],
-                              "type": "collection"
-                            },
-                            "type": "array"
-                          }
-                        ],
-                        "type": "collection"
-                      },
-                      {
-                        "name": "field",
-                        "type": "text"
-                      }
-                    ],
-                    "type": "collection"
-                  },
-                  "type": "array"
-                }
-              ],
-              "type": "collection"
-            },
-            "type": "array"
-          }
-        ]
-      },
+      "metadata": {},
       "parameters": {
         "hook": null,
         "maxResults": 1
@@ -163,12 +20,7 @@
       },
       "module": "gateway:WebhookRespond",
       "version": 1,
-      "metadata": {
-        "designer": {
-          "x": -1956,
-          "y": 501
-        }
-      }
+      "metadata": {}
     },
     {
       "id": 54,
@@ -202,21 +54,11 @@
           },
           "module": "builtin:Resume",
           "version": 1,
-          "metadata": {
-            "designer": {
-              "x": -1714,
-              "y": 768
-            }
-          }
+          "metadata": {}
         }
       ],
       "version": 1,
-      "metadata": {
-        "designer": {
-          "x": -1708,
-          "y": 519
-        }
-      },
+      "metadata": {},
       "parameters": {}
     },
     {
@@ -228,76 +70,7 @@
       },
       "module": "datastore:GetRecord",
       "version": 1,
-      "metadata": {
-        "expect": [
-          {
-            "name": "key",
-            "type": "text",
-            "label": "Key",
-            "required": true
-          },
-          {
-            "name": "returnWrapped",
-            "type": "boolean",
-            "label": "Return Wrapped Output",
-            "required": true
-          }
-        ],
-        "restore": {
-          "parameters": {
-            "datastore": {
-              "label": "Buffer de mensajes bot"
-            }
-          }
-        },
-        "designer": {
-          "x": -1456,
-          "y": 526
-        },
-        "interface": [
-          {
-            "help": "",
-            "name": "telefono",
-            "type": "text",
-            "label": null,
-            "default": null,
-            "required": false,
-            "multiline": false
-          },
-          {
-            "help": "",
-            "name": "mensajes",
-            "type": "text",
-            "label": null,
-            "default": null,
-            "required": false,
-            "multiline": false
-          },
-          {
-            "help": "",
-            "name": "ultima_actualizacion",
-            "type": "date",
-            "label": null,
-            "required": false
-          }
-        ],
-        "parameters": [
-          {
-            "name": "datastore",
-            "type": "datastore",
-            "label": "Data store",
-            "required": true
-          }
-        ],
-        "setupValidation": {
-          "result": {
-            "valid": true,
-            "fields": []
-          },
-          "version": 1,
-          "configuration": "8e7be4b374284cdd"
-        }
-      },
+      "metadata": {},
       "parameters": {
         "datastore": null
       }
@@ -312,59 +85,7 @@
       },
       "module": "util:SetVariable2",
       "version": 1,
-      "metadata": {
-        "expect": [
-          {
-            "name": "name",
-            "type": "text",
-            "label": "Variable name",
-            "required": true
-          },
-          {
-            "name": "scope",
-            "type": "select",
-            "label": "Variable lifetime",
-            "required": true,
-            "validate": {
-              "enum": [
-                "roundtrip",
-                "execution"
-              ]
-            }
-          },
-          {
-            "name": "value",
-            "type": "any",
-            "label": "Variable value"
-          }
-        ],
-        "restore": {
-          "expect": {
-            "scope": {
-              "label": "One cycle"
-            }
-          }
-        },
-        "designer": {
-          "x": -1198,
-          "y": 532
-        },
-        "interface": [
-          {
-            "name": "marca_tiempo",
-            "type": "any",
-            "label": "marca_tiempo"
-          }
-        ],
-        "setupValidation": {
-          "result": {
-            "valid": true,
-            "fields": []
-          },
-          "version": 1,
-          "configuration": "c158eb07996eff58"
-        }
-      },
+      "metadata": {},
       "parameters": {}
     },
     {
@@ -380,75 +101,7 @@
       },
       "module": "datastore:AddRecord",
       "version": 1,
-      "metadata": {
-        "expect": [
-          {
-            "name": "key",
-            "type": "text",
-            "label": "Key"
-          },
-          {
-            "name": "overwrite",
-            "type": "boolean",
-            "label": "Overwrite an existing record",
-            "required": true
-          },
-          {
-            "name": "data",
-            "spec": [
-              {
-                "name": "telefono",
-                "type": "text",
-                "label": null
-              },
-              {
-                "name": "mensajes",
-                "type": "text",
-                "label": null
-              },
-              {
-                "name": "ultima_actualizacion",
-                "type": "date",
-                "label": null
-              }
-            ],
-            "type": "collection",
-            "label": "Record"
-          }
-        ],
-        "restore": {
-          "expect": {
-            "overwrite": {
-              "mode": "chose"
-            }
-          },
-          "parameters": {
-            "datastore": {
-              "label": "Buffer de mensajes bot"
-            }
-          }
-        },
-        "designer": {
-          "x": -951,
-          "y": 532
-        },
-        "parameters": [
-          {
-            "name": "datastore",
-            "type": "datastore",
-            "label": "Data store",
-            "required": true
-          }
-        ],
-        "setupValidation": {
-          "result": {
-            "valid": true,
-            "fields": []
-          },
-          "version": 1,
-          "configuration": "cf020e1cea877cd2"
-        }
-      },
+      "metadata": {},
       "parameters": {
         "datastore": null
       }
@@ -461,33 +114,7 @@
       },
       "module": "util:FunctionSleep",
       "version": 1,
-      "metadata": {
-        "expect": [
-          {
-            "name": "duration",
-            "type": "uinteger",
-            "label": "Delay",
-            "required": true,
-            "validate": {
-              "max": 300,
-              "min": 1
-            }
-          }
-        ],
-        "restore": {},
-        "designer": {
-          "x": -715,
-          "y": 530
-        },
-        "setupValidation": {
-          "result": {
-            "valid": true,
-            "fields": []
-          },
-          "version": 1,
-          "configuration": "f9a7bacbe4526e66"
-        }
-      },
+      "metadata": {},
       "parameters": {}
     },
     {
@@ -499,76 +126,7 @@
       },
       "module": "datastore:GetRecord",
       "version": 1,
-      "metadata": {
-        "expect": [
-          {
-            "name": "key",
-            "type": "text",
-            "label": "Key",
-            "required": true
-          },
-          {
-            "name": "returnWrapped",
-            "type": "boolean",
-            "label": "Return Wrapped Output",
-            "required": true
-          }
-        ],
-        "restore": {
-          "parameters": {
-            "datastore": {
-              "label": "Buffer de mensajes bot"
-            }
-          }
-        },
-        "designer": {
-          "x": -450,
-          "y": 543
-        },
-        "interface": [
-          {
-            "help": "",
-            "name": "telefono",
-            "type": "text",
-            "label": null,
-            "default": null,
-            "required": false,
-            "multiline": false
-          },
-          {
-            "help": "",
-            "name": "mensajes",
-            "type": "text",
-            "label": null,
-            "default": null,
-            "required": false,
-            "multiline": false
-          },
-          {
-            "help": "",
-            "name": "ultima_actualizacion",
-            "type": "date",
-            "label": null,
-            "required": false
-          }
-        ],
-        "parameters": [
-          {
-            "name": "datastore",
-            "type": "datastore",
-            "label": "Data store",
-            "required": true
-          }
-        ],
-        "setupValidation": {
-          "result": {
-            "valid": true,
-            "fields": []
-          },
-          "version": 1,
-          "configuration": "2e4d3bf14ac963df"
-        }
-      },
+      "metadata": {},
       "parameters": {
         "datastore": null
       }
@@ -612,21 +170,11 @@
           },
           "module": "builtin:Resume",
           "version": 1,
-          "metadata": {
-            "designer": {
-              "x": -196,
-              "y": 316
-            }
-          }
+          "metadata": {}
         }
       ],
       "version": 1,
-      "metadata": {
-        "designer": {
-          "x": -204,
-          "y": 556
-        }
-      },
+      "metadata": {},
       "parameters": {}
     },
     {
@@ -642,67 +190,7 @@
       },
       "module": "datastore:AddRecord",
       "version": 1,
-      "metadata": {
-        "expect": [
-          {
-            "name": "key",
-            "type": "text",
-            "label": "Key"
-          },
-          {
-            "name": "overwrite",
-            "type": "boolean",
-            "label": "Overwrite an existing record",
-            "required": true
-          },
-          {
-            "name": "data",
-            "spec": [
-              {
-                "name": "telefono",
-                "type": "text",
-                "label": null
-              },
-              {
-                "name": "mensajes",
-                "type": "text",
-                "label": null
-              },
-              {
-                "name": "ultima_actualizacion",
-                "type": "date",
-                "label": null
-              }
-            ],
-            "type": "collection",
-            "label": "Record"
-          }
-        ],
-        "restore": {
-          "expect": {
-            "overwrite": {
-              "mode": "chose"
-            }
-          },
-          "parameters": {
-            "datastore": {
-              "label": "Buffer de mensajes bot"
-            }
-          }
-        },
-        "designer": {
-          "x": -80,
-          "y": 553
-        },
-        "parameters": [
-          {
-            "name": "datastore",
-            "type": "datastore",
-            "label": "Data store",
-            "required": true
-          }
-        ]
-      },
+      "metadata": {},
       "parameters": {
         "datastore": null
       }
@@ -754,21 +242,11 @@
           },
           "module": "builtin:Resume",
           "version": 1,
-          "metadata": {
-            "designer": {
-              "x": 56,
-              "y": 289
-            }
-          }
+          "metadata": {}
         }
       ],
       "version": 1,
-      "metadata": {
-        "designer": {
-          "x": 43,
-          "y": 549
-        }
-      },
+      "metadata": {},
       "parameters": {}
     },
     {
@@ -794,559 +272,7 @@
       },
       "module": "google-sheets:filterRows",
       "version": 2,
-      "metadata": {
-        "designer": {
-          "x": 315,
-          "y": 546
-        },
-        "interface": [
-          {
-            "name": "__IMTLENGTH__",
-            "type": "uinteger",
-            "label": "Total number of bundles"
-          },
-          {
-            "name": "__IMTINDEX__",
-            "type": "uinteger",
-            "label": "Bundle order position"
-          },
-          {
-            "name": "__ROW_NUMBER__",
-            "type": "number",
-            "label": "Row number"
-          },
-          {
-            "name": "__SPREADSHEET_ID__",
-            "type": "text",
-            "label": "Spreadsheet ID"
-          },
-          {
-            "name": "__SHEET__",
-            "type": "text",
-            "label": "Sheet"
-          },
-          {
-            "name": "0",
-            "type": "text",
-            "label": "Teléfono  (A)"
-          },
-          {
-            "name": "1",
-            "type": "text",
-            "label": "Fecha  (B)"
-          },
-          {
-            "name": "2",
-            "type": "text",
-            "label": "Primer mensaje (C)"
-          },
-          {
-            "name": "3",
-            "type": "text",
-            "label": "(D)"
-          },
-          {
-            "name": "4",
-            "type": "text",
-            "label": "(E)"
-          },
-          {
-            "name": "5",
-            "type": "text",
-            "label": "(F)"
-          },
-          {
-            "name": "6",
-            "type": "text",
-            "label": "(G)"
-          },
-          {
-            "name": "7",
-            "type": "text",
-            "label": "(H)"
-          },
-          {
-            "name": "8",
-            "type": "text",
-            "label": "(I)"
-          },
-          {
-            "name": "9",
-            "type": "text",
-            "label": "(J)"
-          },
-          {
-            "name": "10",
-            "type": "text",
-            "label": "(K)"
-          },
-          {
-            "name": "11",
-            "type": "text",
-            "label": "(L)"
-          },
-          {
-            "name": "12",
-            "type": "text",
-            "label": "(M)"
-          },
-          {
-            "name": "13",
-            "type": "text",
-            "label": "(N)"
-          },
-          {
-            "name": "14",
-            "type": "text",
-            "label": "(O)"
-          },
-          {
-            "name": "15",
-            "type": "text",
-            "label": "(P)"
-          },
-          {
-            "name": "16",
-            "type": "text",
-            "label": "(Q)"
-          },
-          {
-            "name": "17",
-            "type": "text",
-            "label": "(R)"
-          },
-          {
-            "name": "18",
-            "type": "text",
-            "label": "(S)"
-          },
-          {
-            "name": "19",
-            "type": "text",
-            "label": "(T)"
-          },
-          {
-            "name": "20",
-            "type": "text",
-            "label": "(U)"
-          },
-          {
-            "name": "21",
-            "type": "text",
-            "label": "(V)"
-          },
-          {
-            "name": "22",
-            "type": "text",
-            "label": "(W)"
-          },
-          {
-            "name": "23",
-            "type": "text",
-            "label": "(X)"
-          },
-          {
-            "name": "24",
-            "type": "text",
-            "label": "(Y)"
-          },
-          {
-            "name": "25",
-            "type": "text",
-            "label": "(Z)"
-          },
-          {
-            "name": "26",
-            "type": "text",
-            "label": "(AA)"
-          },
-          {
-            "name": "27",
-            "type": "text",
-            "label": "(AB)"
-          },
-          {
-            "name": "28",
-            "type": "text",
-            "label": "(AC)"
-          },
-          {
-            "name": "29",
-            "type": "text",
-            "label": "(AD)"
-          },
-          {
-            "name": "30",
-            "type": "text",
-            "label": "(AE)"
-          },
-          {
-            "name": "31",
-            "type": "text",
-            "label": "(AF)"
-          },
-          {
-            "name": "32",
-            "type": "text",
-            "label": "(AG)"
-          },
-          {
-            "name": "33",
-            "type": "text",
-            "label": "(AH)"
-          },
-          {
-            "name": "34",
-            "type": "text",
-            "label": "(AI)"
-          },
-          {
-            "name": "35",
-            "type": "text",
-            "label": "(AJ)"
-          },
-          {
-            "name": "36",
-            "type": "text",
-            "label": "(AK)"
-          },
-          {
-            "name": "37",
-            "type": "text",
-            "label": "(AL)"
-          },
-          {
-            "name": "38",
-            "type": "text",
-            "label": "(AM)"
-          },
-          {
-            "name": "39",
-            "type": "text",
-            "label": "(AN)"
-          },
-          {
-            "name": "40",
-            "type": "text",
-            "label": "(AO)"
-          },
-          {
-            "name": "41",
-            "type": "text",
-            "label": "(AP)"
-          },
-          {
-            "name": "42",
-            "type": "text",
-            "label": "(AQ)"
-          },
-          {
-            "name": "43",
-            "type": "text",
-            "label": "(AR)"
-          },
-          {
-            "name": "44",
-            "type": "text",
-            "label": "(AS)"
-          },
-          {
-            "name": "45",
-            "type": "text",
-            "label": "(AT)"
-          },
-          {
-            "name": "46",
-            "type": "text",
-            "label": "(AU)"
-          },
-          {
-            "name": "47",
-            "type": "text",
-            "label": "(AV)"
-          },
-          {
-            "name": "48",
-            "type": "text",
-            "label": "(AW)"
-          },
-          {
-            "name": "49",
-            "type": "text",
-            "label": "(AX)"
-          },
-          {
-            "name": "50",
-            "type": "text",
-            "label": "(AY)"
-          },
-          {
-            "name": "51",
-            "type": "text",
-            "label": "(AZ)"
-          },
-          {
-            "name": "52",
-            "type": "text",
-            "label": "(BA)"
-          },
-          {
-            "name": "53",
-            "type": "text",
-            "label": "(BB)"
-          },
-          {
-            "name": "54",
-            "type": "text",
-            "label": "(BC)"
-          },
-          {
-            "name": "55",
-            "type": "text",
-            "label": "(BD)"
-          },
-          {
-            "name": "56",
-            "type": "text",
-            "label": "(BE)"
-          },
-          {
-            "name": "57",
-            "type": "text",
-            "label": "(BF)"
-          },
-          {
-            "name": "58",
-            "type": "text",
-            "label": "(BG)"
-          },
-          {
-            "name": "59",
-            "type": "text",
-            "label": "(BH)"
-          },
-          {
-            "name": "60",
-            "type": "text",
-            "label": "(BI)"
-          },
-          {
-            "name": "61",
-            "type": "text",
-            "label": "(BJ)"
-          },
-          {
-            "name": "62",
-            "type": "text",
-            "label": "(BK)"
-          },
-          {
-            "name": "63",
-            "type": "text",
-            "label": "(BL)"
-          },
-          {
-            "name": "64",
-            "type": "text",
-            "label": "(BM)"
-          },
-          {
-            "name": "65",
-            "type": "text",
-            "label": "(BN)"
-          },
-          {
-            "name": "66",
-            "type": "text",
-            "label": "(BO)"
-          },
-          {
-            "name": "67",
-            "type": "text",
-            "label": "(BP)"
-          },
-          {
-            "name": "68",
-            "type": "text",
-            "label": "(BQ)"
-          },
-          {
-            "name": "69",
-            "type": "text",
-            "label": "(BR)"
-          },
-          {
-            "name": "70",
-            "type": "text",
-            "label": "(BS)"
-          },
-          {
-            "name": "71",
-            "type": "text",
-            "label": "(BT)"
-          },
-          {
-            "name": "72",
-            "type": "text",
-            "label": "(BU)"
-          },
-          {
-            "name": "73",
-            "type": "text",
-            "label": "(BV)"
-          },
-          {
-            "name": "74",
-            "type": "text",
-            "label": "(BW)"
-          },
-          {
-            "name": "75",
-            "type": "text",
-            "label": "(BX)"
-          },
-          {
-            "name": "76",
-            "type": "text",
-            "label": "(BY)"
-          },
-          {
-            "name": "77",
-            "type": "text",
-            "label": "(BZ)"
-          },
-          {
-            "name": "78",
-            "type": "text",
-            "label": "(CA)"
-          },
-          {
-            "name": "79",
-            "type": "text",
-            "label": "(CB)"
-          },
-          {
-            "name": "80",
-            "type": "text",
-            "label": "(CC)"
-          },
-          {
-            "name": "81",
-            "type": "text",
-            "label": "(CD)"
-          },
-          {
-            "name": "82",
-            "type": "text",
-            "label": "(CE)"
-          },
-          {
-            "name": "83",
-            "type": "text",
-            "label": "(CF)"
-          },
-          {
-            "name": "84",
-            "type": "text",
-            "label": "(CG)"
-          },
-          {
-            "name": "85",
-            "type": "text",
-            "label": "(CH)"
-          },
-          {
-            "name": "86",
-            "type": "text",
-            "label": "(CI)"
-          },
-          {
-            "name": "87",
-            "type": "text",
-            "label": "(CJ)"
-          },
-          {
-            "name": "88",
-            "type": "text",
-            "label": "(CK)"
-          },
-          {
-            "name": "89",
-            "type": "text",
-            "label": "(CL)"
-          },
-          {
-            "name": "90",
-            "type": "text",
-            "label": "(CM)"
-          },
-          {
-            "name": "91",
-            "type": "text",
-            "label": "(CN)"
-          },
-          {
-            "name": "92",
-            "type": "text",
-            "label": "(CO)"
-          },
-          {
-            "name": "93",
-            "type": "text",
-            "label": "(CP)"
-          },
-          {
-            "name": "94",
-            "type": "text",
-            "label": "(CQ)"
-          },
-          {
-            "name": "95",
-            "type": "text",
-            "label": "(CR)"
-          },
-          {
-            "name": "96",
-            "type": "text",
-            "label": "(CS)"
-          },
-          {
-            "name": "97",
-            "type": "text",
-            "label": "(CT)"
-          },
-          {
-            "name": "98",
-            "type": "text",
-            "label": "(CU)"
-          },
-          {
-            "name": "99",
-            "type": "text",
-            "label": "(CV)"
-          },
-          {
-            "name": "100",
-            "type": "text",
-            "label": "(CW)"
-          },
-          {
-            "name": "101",
-            "type": "text",
-            "label": "(CX)"
-          },
-          {
-            "name": "102",
-            "type": "text",
-            "label": "(CY)"
-          },
-          {
-            "name": "103",
-            "type": "text",
-            "label": "(CZ)"
-          }
-        ]
-      },
+      "metadata": {},
       "parameters": {}
     },
     {
@@ -1388,12 +314,7 @@
               },
               "module": "google-sheets:addRow",
               "version": 2,
-              "metadata": {
-                "designer": {
-                  "x": 1023,
-                  "y": 177
-                }
-              },
+              "metadata": {},
               "parameters": {}
             },
             {
@@ -1439,75 +360,7 @@
                   },
                   "module": "datastore:AddRecord",
                   "version": 1,
-                  "metadata": {
-                    "expect": [
-                      {
-                        "name": "key",
-                        "type": "text",
-                        "label": "Key"
-                      },
-                      {
-                        "name": "overwrite",
-                        "type": "boolean",
-                        "label": "Overwrite an existing record",
-                        "required": true
-                      },
-                      {
-                        "name": "data",
-                        "spec": [
-                          {
-                            "name": "telefono",
-                            "type": "text",
-                            "label": null
-                          },
-                          {
-                            "name": "mensajes",
-                            "type": "text",
-                            "label": null
-                          },
-                          {
-                            "name": "ultima_actualizacion",
-                            "type": "date",
-                            "label": null
-                          }
-                        ],
-                        "type": "collection",
-                        "label": "Record"
-                      }
-                    ],
-                    "restore": {
-                      "expect": {
-                        "overwrite": {
-                          "mode": "chose"
-                        }
-                      },
-                      "parameters": {
-                        "datastore": {
-                          "label": "Buffer de mensajes bot"
-                        }
-                      }
-                    },
-                    "designer": {
-                      "x": 1873,
-                      "y": 410
-                    },
-                    "parameters": [
-                      {
-                        "name": "datastore",
-                        "type": "datastore",
-                        "label": "Data store",
-                        "required": true
-                      }
-                    ],
-                    "setupValidation": {
-                      "result": {
-                        "valid": true,
-                        "fields": []
-                      },
-                      "version": 1,
-                      "configuration": "1778baf36e1bd872"
-                    }
-                  },
+                  "metadata": {},
                   "parameters": {
                     "datastore": null
                   }
@@ -1525,541 +378,12 @@
                   },
                   "module": "whatsapp-business-cloud:sendMessage",
                   "version": 1,
-                  "metadata": {
-                    "designer": {
-                      "x": 2136,
-                      "y": 403
-                    }
-                  },
+                  "metadata": {},
                   "parameters": {}
                 }
               ],
               "version": 1,
-              "metadata": {
-                "expect": [
-                  {
-                    "name": "model",
-                    "type": "select",
-                    "label": "AI Model",
-                    "required": true
-                  },
-                  {
-                    "name": "contents",
-                    "spec": [
-                      {
-                        "name": "role",
-                        "type": "select",
-                        "label": "Role",
-                        "options": [
-                          {
-                            "label": "User",
-                            "value": "user"
-                          },
-                          {
-                            "label": "Model",
-                            "value": "model"
-                          }
-                        ],
-                        "required": true
-                      },
-                      {
-                        "name": "parts",
-                        "spec": [
-                          {
-                            "name": "type",
-                            "type": "select",
-                            "label": "Message Type",
-                            "options": [
-                              {
-                                "label": "Text",
-                                "value": "text",
-                                "nested": [
-                                  {
-                                    "name": "text",
-                                    "type": "text",
-                                    "label": "Text",
-                                    "required": true
-                                  }
-                                ]
-                              },
-                              {
-                                "label": "File",
-                                "value": "file",
-                                "nested": [
-                                  {
-                                    "name": "file_data",
-                                    "spec": [
-                                      {
-                                        "name": "mime_type",
-                                        "type": "text",
-                                        "label": "Mime Type",
-                                        "required": true
-                                      },
-                                      {
-                                        "help": "You can use public or signed URLs as input by using the URLs.",
-                                        "name": "file_uri",
-                                        "type": "text",
-                                        "label": "File URI",
-                                        "required": true
-                                      }
-                                    ],
-                                    "type": "collection",
-                                    "label": "File Data",
-                                    "required": true
-                                  }
-                                ]
-                              },
-                              {
-                                "label": "Function Call",
-                                "value": "functionCall",
-                                "nested": [
-                                  {
-                                    "name": "functionCall",
-                                    "spec": [
-                                      {
-                                        "help": "The name of the function to call.",
-                                        "name": "name",
-                                        "type": "text",
-                                        "label": "Name",
-                                        "required": true,
-                                        "validate": {
-                                          "max": 64
-                                        }
-                                      },
-                                      {
-                                        "help": "The function parameters and values in JSON object format.",
-                                        "name": "args",
-                                        "type": "json",
-                                        "label": "Arguments"
-                                      },
-                                      {
-                                        "help": "The unique ID of the function call.",
-                                        "name": "id",
-                                        "type": "text",
-                                        "label": "Function Call ID"
-                                      }
-                                    ],
-                                    "type": "collection",
-                                    "label": "Function Call"
-                                  }
-                                ]
-                              },
-                              {
-                                "label": "Function Response",
-                                "value": "functionResponse",
-                                "nested": [
-                                  {
-                                    "name": "functionResponse",
-                                    "spec": [
-                                      {
-                                        "help": "The name of the function to call.",
-                                        "name": "name",
-                                        "type": "text",
-                                        "label": "Name",
-                                        "required": true,
-                                        "validate": {
-                                          "max": 64
-                                        }
-                                      },
-                                      {
-                                        "help": "The function response in JSON object format.",
-                                        "name": "response",
-                                        "type": "json",
-                                        "label": "Response",
-                                        "required": true
-                                      }
-                                    ],
-                                    "type": "collection",
-                                    "label": "Function Response"
-                                  }
-                                ]
-                              }
-                            ],
-                            "required": true
-                          },
-                          {
-                            "name": "thoughtSignature",
-                            "type": "text",
-                            "label": "Thought Signature"
-                          }
-                        ],
-                        "type": "array",
-                        "label": "Parts",
-                        "required": true
-                      }
-                    ],
-                    "type": "array",
-                    "label": "Messages",
-                    "required": true
-                  },
-                  {
-                    "name": "system_instruction",
-                    "spec": [
-                      {
-                        "name": "parts",
-                        "spec": {
-                          "name": "value",
-                          "spec": [
-                            {
-                              "name": "text",
-                              "type": "text",
-                              "label": "Value"
-                            }
-                          ],
-                          "type": "collection",
-                          "label": "Prompt"
-                        },
-                        "type": "array",
-                        "label": "Prompts"
-                      }
-                    ],
-                    "type": "collection",
-                    "label": "System Instructions"
-                  },
-                  {
-                    "name": "safetySettings",
-                    "spec": [
-                      {
-                        "name": "category",
-                        "type": "select",
-                        "label": "Category",
-                        "options": [
-                          {
-                            "label": "Harassment content",
-                            "value": "HARM_CATEGORY_HARASSMENT"
-                          },
-                          {
-                            "label": "Hate speech and content",
-                            "value": "HARM_CATEGORY_HATE_SPEECH"
-                          },
-                          {
-                            "label": "Sexually explicit content.",
-                            "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT"
-                          },
-                          {
-                            "label": "Dangerous content:",
-                            "value": "HARM_CATEGORY_DANGEROUS_CONTENT"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "threshold",
-                        "type": "select",
-                        "label": "Threshold",
-                        "options": [
-                          {
-                            "label": "Block low and above.",
-                            "value": "BLOCK_LOW_AND_ABOVE"
-                          },
-                          {
-                            "label": "Block medium and above.",
-                            "value": "BLOCK_MEDIUM_AND_ABOVE"
-                          },
-                          {
-                            "label": "Block only high.",
-                            "value": "BLOCK_ONLY_HIGH"
-                          },
-                          {
-                            "label": "Block none.",
-                            "value": "BLOCK_NONE"
-                          }
-                        ]
-                      }
-                    ],
-                    "type": "array",
-                    "label": "Safety Settings"
-                  },
-                  {
-                    "name": "generationConfig",
-                    "spec": [
-                      {
-                        "name": "stopSequences",
-                        "spec": {
-                          "name": "value",
-                          "type": "text",
-                          "label": "Stop Sequence"
-                        },
-                        "type": "array",
-                        "label": "Stop Sequences"
-                      },
-                      {
-                        "name": "responseModalities",
-                        "type": "select",
-                        "label": "Response Modalities",
-                        "multiple": true,
-                        "validate": {
-                          "enum": [
-                            "text",
-                            "image"
-                          ]
-                        }
-                      },
-                      {
-                        "name": "maxOutputTokens",
-                        "type": "number",
-                        "label": "Max Output Tokens"
-                      },
-                      {
-                        "name": "temperature",
-                        "type": "number",
-                        "label": "Temperature",
-                        "validate": {
-                          "max": 1,
-                          "min": 0
-                        }
-                      },
-                      {
-                        "name": "topP",
-                        "type": "number",
-                        "label": "Top P",
-                        "validate": {
-                          "max": 1,
-                          "min": 0
-                        }
-                      },
-                      {
-                        "name": "topK",
-                        "type": "number",
-                        "label": "Top K"
-                      },
-                      {
-                        "name": "thinkingConfig",
-                        "spec": [
-                          {
-                            "name": "thinkingBudget",
-                            "type": "number",
-                            "label": "Thinking Budget"
-                          },
-                          {
-                            "name": "include_thoughts",
-                            "type": "boolean",
-                            "label": "Include Thoughts"
-                          },
-                          {
-                            "name": "thinking_level",
-                            "type": "select",
-                            "label": "Thinking Level",
-                            "validate": {
-                              "enum": [
-                                "low",
-                                "high"
-                              ]
-                            }
-                          }
-                        ],
-                        "type": "collection",
-                        "label": "Thinking Config"
-                      },
-                      {
-                        "name": "mediaResolution",
-                        "type": "select",
-                        "label": "Media Resolution",
-                        "validate": {
-                          "enum": [
-                            "media_resolution_low",
-                            "media_resolution_medium",
-                            "media_resolution_high"
-                          ]
-                        }
-                      },
-                      {
-                        "name": "imageConfig",
-                        "spec": [
-                          {
-                            "name": "imageSize",
-                            "type": "select",
-                            "label": "Image Size",
-                            "validate": {
-                              "enum": [
-                                "1K",
-                                "2K",
-                                "4K"
-                              ]
-                            }
-                          }
-                        ],
-                        "type": "collection",
-                        "label": "Image Configuration"
-                      },
-                      {
-                        "name": "responseMimeType",
-                        "type": "select",
-                        "label": "Response Format"
-                      }
-                    ],
-                    "type": "collection",
-                    "label": "Generation configurations"
-                  },
-                  {
-                    "name": "tools",
-                    "type": "any",
-                    "label": "Tools"
-                  },
-                  {
-                    "name": "tool_config",
-                    "type": "any",
-                    "label": "Tool Config"
-                  },
-                  {
-                    "name": "function_declarations_context",
-                    "type": "boolean",
-                    "label": "Function Declarations Grounding"
-                  },
-                  {
-                    "name": "url_context",
-                    "type": "boolean",
-                    "label": "URL Context"
-                  },
-                  {
-                    "name": "google_search_context",
-                    "type": "boolean",
-                    "label": "Google Search Grounding"
-                  },
-                  {
-                    "name": "code_execution",
-                    "type": "boolean",
-                    "label": "Code Execution"
-                  },
-                  {
-                    "name": "google_maps_context",
-                    "type": "boolean",
-                    "label": "Google Maps Grounding"
-                  },
-                  {
-                    "name": "file_search_store_context",
-                    "type": "boolean",
-                    "label": "File Search Store Context"
-                  },
-                  {
-                    "name": "serviceTier",
-                    "type": "select",
-                    "label": "Inference Service Tier"
-                  }
-                ],
-                "restore": {
-                  "expect": {
-                    "model": {
-                      "mode": "chose",
-                      "label": "Gemini 3.5 Flash"
-                    },
-                    "contents": {
-                      "mode": "chose",
-                      "items": [
-                        {
-                          "role": {
-                            "mode": "chose",
-                            "label": "User"
-                          },
-                          "parts": {
-                            "mode": "chose",
-                            "items": [
-                              {
-                                "type": {
-                                  "mode": "chose",
-                                  "label": "Text"
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "serviceTier": {
-                      "mode": "chose",
-                      "label": "Empty"
-                    },
-                    "url_context": {
-                      "mode": "chose"
-                    },
-                    "code_execution": {
-                      "mode": "chose"
-                    },
-                    "safetySettings": {
-                      "mode": "chose"
-                    },
-                    "generationConfig": {
-                      "nested": {
-                        "imageConfig": {
-                          "nested": {
-                            "imageSize": {
-                              "mode": "chose",
-                              "label": "Empty"
-                            }
-                          }
-                        },
-                        "stopSequences": {
-                          "mode": "chose"
-                        },
-                        "thinkingConfig": {
-                          "nested": {
-                            "thinking_level": {
-                              "mode": "chose",
-                              "label": "Empty"
-                            },
-                            "include_thoughts": {
-                              "mode": "chose"
-                            }
-                          }
-                        },
-                        "mediaResolution": {
-                          "mode": "chose",
-                          "label": "Empty"
-                        },
-                        "responseMimeType": {
-                          "mode": "chose",
-                          "label": "Empty"
-                        },
-                        "responseModalities": {
-                          "mode": "chose"
-                        }
-                      }
-                    },
-                    "system_instruction": {
-                      "nested": {
-                        "parts": {
-                          "mode": "chose",
-                          "items": [
-                            null
-                          ]
-                        }
-                      }
-                    },
-                    "google_maps_context": {
-                      "mode": "chose"
-                    },
-                    "google_search_context": {
-                      "mode": "chose"
-                    },
-                    "file_search_store_context": {
-                      "mode": "chose"
-                    },
-                    "function_declarations_context": {
-                      "mode": "chose"
-                    }
-                  },
-                  "parameters": {}
-                },
-                "designer": {
-                  "x": 1433,
-                  "y": 185
-                },
-                "parameters": [
-                  {
-                    "name": "__IMTCONN__",
-                    "type": "account:gemini-ai-q9zyjp",
-                    "label": "Connection",
-                    "required": true
-                  }
-                ],
-                "setupValidation": {
-                  "result": {
-                    "valid": true,
-                    "fields": []
-                  },
-                  "version": 1,
-                  "configuration": "9c9f4f35f897ddf6"
-                }
-              },
+              "metadata": {},
               "parameters": {}
             },
             {
@@ -2110,12 +434,7 @@
                       },
                       "module": "gemini-ai:createACompletionGeminiPro",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2409,
-                          "y": -792
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -2125,12 +444,7 @@
                       },
                       "module": "json:ParseJSON",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2409,
-                          "y": -792
-                        }
-                      }
+                      "metadata": {}
                     },
                     {
                       "id": 37,
@@ -2153,12 +467,7 @@
                       },
                       "module": "google-calendar:createAnEvent",
                       "version": 5,
-                      "metadata": {
-                        "designer": {
-                          "x": 2733,
-                          "y": -781
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -2174,12 +483,7 @@
                       },
                       "module": "whatsapp-business-cloud:sendMessage",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 3033,
-                          "y": -789
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -2203,12 +507,7 @@
                       },
                       "module": "google-sheets:updateRow",
                       "version": 2,
-                      "metadata": {
-                        "designer": {
-                          "x": 3326,
-                          "y": -789
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     }
                   ]
@@ -2240,12 +539,7 @@
                       },
                       "module": "whatsapp-business-cloud:sendMessage",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2106,
-                          "y": -218
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -2266,12 +560,7 @@
                       },
                       "module": "google-sheets:updateRow",
                       "version": 2,
-                      "metadata": {
-                        "designer": {
-                          "x": 2401,
-                          "y": -214
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -2299,24 +588,14 @@
                       },
                       "module": "whatsapp-business-cloud:sendMessage",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2639,
-                          "y": -201
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     }
                   ]
                 }
               ],
               "version": 1,
-              "metadata": {
-                "designer": {
-                  "x": 1762,
-                  "y": -356
-                }
-              }
+              "metadata": {}
             }
           ]
         },
@@ -2375,541 +654,12 @@
                   },
                   "module": "whatsapp-business-cloud:sendMessage",
                   "version": 1,
-                  "metadata": {
-                    "designer": {
-                      "x": 1245,
-                      "y": 1614
-                    }
-                  },
+                  "metadata": {},
                   "parameters": {}
                 }
               ],
               "version": 1,
-              "metadata": {
-                "expect": [
-                  {
-                    "name": "model",
-                    "type": "select",
-                    "label": "AI Model",
-                    "required": true
-                  },
-                  {
-                    "name": "contents",
-                    "spec": [
-                      {
-                        "name": "role",
-                        "type": "select",
-                        "label": "Role",
-                        "options": [
-                          {
-                            "label": "User",
-                            "value": "user"
-                          },
-                          {
-                            "label": "Model",
-                            "value": "model"
-                          }
-                        ],
-                        "required": true
-                      },
-                      {
-                        "name": "parts",
-                        "spec": [
-                          {
-                            "name": "type",
-                            "type": "select",
-                            "label": "Message Type",
-                            "options": [
-                              {
-                                "label": "Text",
-                                "value": "text",
-                                "nested": [
-                                  {
-                                    "name": "text",
-                                    "type": "text",
-                                    "label": "Text",
-                                    "required": true
-                                  }
-                                ]
-                              },
-                              {
-                                "label": "File",
-                                "value": "file",
-                                "nested": [
-                                  {
-                                    "name": "file_data",
-                                    "spec": [
-                                      {
-                                        "name": "mime_type",
-                                        "type": "text",
-                                        "label": "Mime Type",
-                                        "required": true
-                                      },
-                                      {
-                                        "help": "You can use public or signed URLs as input by using the URLs.",
-                                        "name": "file_uri",
-                                        "type": "text",
-                                        "label": "File URI",
-                                        "required": true
-                                      }
-                                    ],
-                                    "type": "collection",
-                                    "label": "File Data",
-                                    "required": true
-                                  }
-                                ]
-                              },
-                              {
-                                "label": "Function Call",
-                                "value": "functionCall",
-                                "nested": [
-                                  {
-                                    "name": "functionCall",
-                                    "spec": [
-                                      {
-                                        "help": "The name of the function to call.",
-                                        "name": "name",
-                                        "type": "text",
-                                        "label": "Name",
-                                        "required": true,
-                                        "validate": {
-                                          "max": 64
-                                        }
-                                      },
-                                      {
-                                        "help": "The function parameters and values in JSON object format.",
-                                        "name": "args",
-                                        "type": "json",
-                                        "label": "Arguments"
-                                      },
-                                      {
-                                        "help": "The unique ID of the function call.",
-                                        "name": "id",
-                                        "type": "text",
-                                        "label": "Function Call ID"
-                                      }
-                                    ],
-                                    "type": "collection",
-                                    "label": "Function Call"
-                                  }
-                                ]
-                              },
-                              {
-                                "label": "Function Response",
-                                "value": "functionResponse",
-                                "nested": [
-                                  {
-                                    "name": "functionResponse",
-                                    "spec": [
-                                      {
-                                        "help": "The name of the function to call.",
-                                        "name": "name",
-                                        "type": "text",
-                                        "label": "Name",
-                                        "required": true,
-                                        "validate": {
-                                          "max": 64
-                                        }
-                                      },
-                                      {
-                                        "help": "The function response in JSON object format.",
-                                        "name": "response",
-                                        "type": "json",
-                                        "label": "Response",
-                                        "required": true
-                                      }
-                                    ],
-                                    "type": "collection",
-                                    "label": "Function Response"
-                                  }
-                                ]
-                              }
-                            ],
-                            "required": true
-                          },
-                          {
-                            "name": "thoughtSignature",
-                            "type": "text",
-                            "label": "Thought Signature"
-                          }
-                        ],
-                        "type": "array",
-                        "label": "Parts",
-                        "required": true
-                      }
-                    ],
-                    "type": "array",
-                    "label": "Messages",
-                    "required": true
-                  },
-                  {
-                    "name": "system_instruction",
-                    "spec": [
-                      {
-                        "name": "parts",
-                        "spec": {
-                          "name": "value",
-                          "spec": [
-                            {
-                              "name": "text",
-                              "type": "text",
-                              "label": "Value"
-                            }
-                          ],
-                          "type": "collection",
-                          "label": "Prompt"
-                        },
-                        "type": "array",
-                        "label": "Prompts"
-                      }
-                    ],
-                    "type": "collection",
-                    "label": "System Instructions"
-                  },
-                  {
-                    "name": "safetySettings",
-                    "spec": [
-                      {
-                        "name": "category",
-                        "type": "select",
-                        "label": "Category",
-                        "options": [
-                          {
-                            "label": "Harassment content",
-                            "value": "HARM_CATEGORY_HARASSMENT"
-                          },
-                          {
-                            "label": "Hate speech and content",
-                            "value": "HARM_CATEGORY_HATE_SPEECH"
-                          },
-                          {
-                            "label": "Sexually explicit content.",
-                            "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT"
-                          },
-                          {
-                            "label": "Dangerous content:",
-                            "value": "HARM_CATEGORY_DANGEROUS_CONTENT"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "threshold",
-                        "type": "select",
-                        "label": "Threshold",
-                        "options": [
-                          {
-                            "label": "Block low and above.",
-                            "value": "BLOCK_LOW_AND_ABOVE"
-                          },
-                          {
-                            "label": "Block medium and above.",
-                            "value": "BLOCK_MEDIUM_AND_ABOVE"
-                          },
-                          {
-                            "label": "Block only high.",
-                            "value": "BLOCK_ONLY_HIGH"
-                          },
-                          {
-                            "label": "Block none.",
-                            "value": "BLOCK_NONE"
-                          }
-                        ]
-                      }
-                    ],
-                    "type": "array",
-                    "label": "Safety Settings"
-                  },
-                  {
-                    "name": "generationConfig",
-                    "spec": [
-                      {
-                        "name": "stopSequences",
-                        "spec": {
-                          "name": "value",
-                          "type": "text",
-                          "label": "Stop Sequence"
-                        },
-                        "type": "array",
-                        "label": "Stop Sequences"
-                      },
-                      {
-                        "name": "responseModalities",
-                        "type": "select",
-                        "label": "Response Modalities",
-                        "multiple": true,
-                        "validate": {
-                          "enum": [
-                            "text",
-                            "image"
-                          ]
-                        }
-                      },
-                      {
-                        "name": "maxOutputTokens",
-                        "type": "number",
-                        "label": "Max Output Tokens"
-                      },
-                      {
-                        "name": "temperature",
-                        "type": "number",
-                        "label": "Temperature",
-                        "validate": {
-                          "max": 1,
-                          "min": 0
-                        }
-                      },
-                      {
-                        "name": "topP",
-                        "type": "number",
-                        "label": "Top P",
-                        "validate": {
-                          "max": 1,
-                          "min": 0
-                        }
-                      },
-                      {
-                        "name": "topK",
-                        "type": "number",
-                        "label": "Top K"
-                      },
-                      {
-                        "name": "thinkingConfig",
-                        "spec": [
-                          {
-                            "name": "thinkingBudget",
-                            "type": "number",
-                            "label": "Thinking Budget"
-                          },
-                          {
-                            "name": "include_thoughts",
-                            "type": "boolean",
-                            "label": "Include Thoughts"
-                          },
-                          {
-                            "name": "thinking_level",
-                            "type": "select",
-                            "label": "Thinking Level",
-                            "validate": {
-                              "enum": [
-                                "low",
-                                "high"
-                              ]
-                            }
-                          }
-                        ],
-                        "type": "collection",
-                        "label": "Thinking Config"
-                      },
-                      {
-                        "name": "mediaResolution",
-                        "type": "select",
-                        "label": "Media Resolution",
-                        "validate": {
-                          "enum": [
-                            "media_resolution_low",
-                            "media_resolution_medium",
-                            "media_resolution_high"
-                          ]
-                        }
-                      },
-                      {
-                        "name": "imageConfig",
-                        "spec": [
-                          {
-                            "name": "imageSize",
-                            "type": "select",
-                            "label": "Image Size",
-                            "validate": {
-                              "enum": [
-                                "1K",
-                                "2K",
-                                "4K"
-                              ]
-                            }
-                          }
-                        ],
-                        "type": "collection",
-                        "label": "Image Configuration"
-                      },
-                      {
-                        "name": "responseMimeType",
-                        "type": "select",
-                        "label": "Response Format"
-                      }
-                    ],
-                    "type": "collection",
-                    "label": "Generation configurations"
-                  },
-                  {
-                    "name": "tools",
-                    "type": "any",
-                    "label": "Tools"
-                  },
-                  {
-                    "name": "tool_config",
-                    "type": "any",
-                    "label": "Tool Config"
-                  },
-                  {
-                    "name": "function_declarations_context",
-                    "type": "boolean",
-                    "label": "Function Declarations Grounding"
-                  },
-                  {
-                    "name": "url_context",
-                    "type": "boolean",
-                    "label": "URL Context"
-                  },
-                  {
-                    "name": "google_search_context",
-                    "type": "boolean",
-                    "label": "Google Search Grounding"
-                  },
-                  {
-                    "name": "code_execution",
-                    "type": "boolean",
-                    "label": "Code Execution"
-                  },
-                  {
-                    "name": "google_maps_context",
-                    "type": "boolean",
-                    "label": "Google Maps Grounding"
-                  },
-                  {
-                    "name": "file_search_store_context",
-                    "type": "boolean",
-                    "label": "File Search Store Context"
-                  },
-                  {
-                    "name": "serviceTier",
-                    "type": "select",
-                    "label": "Inference Service Tier"
-                  }
-                ],
-                "restore": {
-                  "expect": {
-                    "model": {
-                      "mode": "chose",
-                      "label": "Gemini 3.5 Flash"
-                    },
-                    "contents": {
-                      "mode": "chose",
-                      "items": [
-                        {
-                          "role": {
-                            "mode": "chose",
-                            "label": "User"
-                          },
-                          "parts": {
-                            "mode": "chose",
-                            "items": [
-                              {
-                                "type": {
-                                  "mode": "chose",
-                                  "label": "Text"
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      ]
-                    },
-                    "serviceTier": {
-                      "mode": "chose",
-                      "label": "Empty"
-                    },
-                    "url_context": {
-                      "mode": "chose"
-                    },
-                    "code_execution": {
-                      "mode": "chose"
-                    },
-                    "safetySettings": {
-                      "mode": "chose"
-                    },
-                    "generationConfig": {
-                      "nested": {
-                        "imageConfig": {
-                          "nested": {
-                            "imageSize": {
-                              "mode": "chose",
-                              "label": "Empty"
-                            }
-                          }
-                        },
-                        "stopSequences": {
-                          "mode": "chose"
-                        },
-                        "thinkingConfig": {
-                          "nested": {
-                            "thinking_level": {
-                              "mode": "chose",
-                              "label": "Empty"
-                            },
-                            "include_thoughts": {
-                              "mode": "chose"
-                            }
-                          }
-                        },
-                        "mediaResolution": {
-                          "mode": "chose",
-                          "label": "Empty"
-                        },
-                        "responseMimeType": {
-                          "mode": "chose",
-                          "label": "Empty"
-                        },
-                        "responseModalities": {
-                          "mode": "chose"
-                        }
-                      }
-                    },
-                    "system_instruction": {
-                      "nested": {
-                        "parts": {
-                          "mode": "chose",
-                          "items": [
-                            null
-                          ]
-                        }
-                      }
-                    },
-                    "google_maps_context": {
-                      "mode": "chose"
-                    },
-                    "google_search_context": {
-                      "mode": "chose"
-                    },
-                    "file_search_store_context": {
-                      "mode": "chose"
-                    },
-                    "function_declarations_context": {
-                      "mode": "chose"
-                    }
-                  },
-                  "parameters": {}
-                },
-                "designer": {
-                  "x": 995,
-                  "y": 999
-                },
-                "parameters": [
-                  {
-                    "name": "__IMTCONN__",
-                    "type": "account:gemini-ai-q9zyjp",
-                    "label": "Connection",
-                    "required": true
-                  }
-                ],
-                "setupValidation": {
-                  "result": {
-                    "valid": true,
-                    "fields": []
-                  },
-                  "version": 1,
-                  "configuration": "d338c43add6de598"
-                }
-              },
+              "metadata": {},
               "parameters": {}
             },
             {
@@ -2944,75 +694,7 @@
                       },
                       "module": "datastore:AddRecord",
                       "version": 1,
-                      "metadata": {
-                        "expect": [
-                          {
-                            "name": "key",
-                            "type": "text",
-                            "label": "Key"
-                          },
-                          {
-                            "name": "overwrite",
-                            "type": "boolean",
-                            "label": "Overwrite an existing record",
-                            "required": true
-                          },
-                          {
-                            "name": "data",
-                            "spec": [
-                              {
-                                "name": "telefono",
-                                "type": "text",
-                                "label": null
-                              },
-                              {
-                                "name": "mensajes",
-                                "type": "text",
-                                "label": null
-                              },
-                              {
-                                "name": "ultima_actualizacion",
-                                "type": "date",
-                                "label": null
-                              }
-                            ],
-                            "type": "collection",
-                            "label": "Record"
-                          }
-                        ],
-                        "restore": {
-                          "expect": {
-                            "overwrite": {
-                              "mode": "chose"
-                            }
-                          },
-                          "parameters": {
-                            "datastore": {
-                              "label": "Buffer de mensajes bot"
-                            }
-                          }
-                        },
-                        "designer": {
-                          "x": 2125,
-                          "y": 866
-                        },
-                        "parameters": [
-                          {
-                            "name": "datastore",
-                            "type": "datastore",
-                            "label": "Data store",
-                            "required": true
-                          }
-                        ],
-                        "setupValidation": {
-                          "result": {
-                            "valid": true,
-                            "fields": []
-                          },
-                          "version": 1,
-                          "configuration": "1778baf36e1bd872"
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {
                         "datastore": null
                       }
@@ -3046,12 +728,7 @@
                       },
                       "module": "gemini-ai:createACompletionGeminiPro",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2425,
-                          "y": 866
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -3061,12 +738,7 @@
                       },
                       "module": "json:ParseJSON",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2674,
-                          "y": 850
-                        }
-                      }
+                      "metadata": {}
                     },
                     {
                       "id": 45,
@@ -3089,12 +761,7 @@
                       },
                       "module": "google-calendar:createAnEvent",
                       "version": 5,
-                      "metadata": {
-                        "designer": {
-                          "x": 2930,
-                          "y": 855
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -3118,12 +785,7 @@
                       },
                       "module": "google-sheets:updateRow",
                       "version": 2,
-                      "metadata": {
-                        "designer": {
-                          "x": 3171,
-                          "y": 873
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -3139,12 +801,7 @@
                       },
                       "module": "whatsapp-business-cloud:sendMessage",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 3416,
-                          "y": 875
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     }
                   ]
@@ -3176,75 +833,7 @@
                       },
                       "module": "datastore:AddRecord",
                       "version": 1,
-                      "metadata": {
-                        "expect": [
-                          {
-                            "name": "key",
-                            "type": "text",
-                            "label": "Key"
-                          },
-                          {
-                            "name": "overwrite",
-                            "type": "boolean",
-                            "label": "Overwrite an existing record",
-                            "required": true
-                          },
-                          {
-                            "name": "data",
-                            "spec": [
-                              {
-                                "name": "telefono",
-                                "type": "text",
-                                "label": null
-                              },
-                              {
-                                "name": "mensajes",
-                                "type": "text",
-                                "label": null
-                              },
-                              {
-                                "name": "ultima_actualizacion",
-                                "type": "date",
-                                "label": null
-                              }
-                            ],
-                            "type": "collection",
-                            "label": "Record"
-                          }
-                        ],
-                        "restore": {
-                          "expect": {
-                            "overwrite": {
-                              "mode": "chose"
-                            }
-                          },
-                          "parameters": {
-                            "datastore": {
-                              "label": "Buffer de mensajes bot"
-                            }
-                          }
-                        },
-                        "designer": {
-                          "x": 2084,
-                          "y": 1206
-                        },
-                        "parameters": [
-                          {
-                            "name": "datastore",
-                            "type": "datastore",
-                            "label": "Data store",
-                            "required": true
-                          }
-                        ],
-                        "setupValidation": {
-                          "result": {
-                            "valid": true,
-                            "fields": []
-                          },
-                          "version": 1,
-                          "configuration": "1778baf36e1bd872"
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {
                         "datastore": null
                       }
@@ -3267,12 +856,7 @@
                       },
                       "module": "google-sheets:updateRow",
                       "version": 2,
-                      "metadata": {
-                        "designer": {
-                          "x": 2384,
-                          "y": 1206
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -3288,12 +872,7 @@
                       },
                       "module": "whatsapp-business-cloud:sendMessage",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2674,
-                          "y": 1218
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     },
                     {
@@ -3321,44 +900,26 @@
                       },
                       "module": "whatsapp-business-cloud:sendMessage",
                       "version": 1,
-                      "metadata": {
-                        "designer": {
-                          "x": 2976,
-                          "y": 1241
-                        }
-                      },
+                      "metadata": {},
                       "parameters": {}
                     }
                   ]
                 }
               ],
               "version": 1,
-              "metadata": {
-                "designer": {
-                  "x": 1753,
-                  "y": 1031
-                }
-              }
+              "metadata": {}
             }
           ]
         }
       ],
       "version": 1,
-      "metadata": {
-        "designer": {
-          "x": 587,
-          "y": 544
-        }
-      }
+      "metadata": {}
     }
   ],
   "name": "WhatsApp Restaurant Bot (Gemini + Sheets + Calendar)",
   "metadata": {
     "instant": true,
     "version": 1,
-    "designer": {
-      "orphans": []
-    },
     "scenario": {
       "dlq": true,
       "slots": null,
