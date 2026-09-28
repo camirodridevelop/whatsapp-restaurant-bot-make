@@ -1,0 +1,104 @@
+{
+  "name": "WhatsApp Restaurant Bot (Gemini + Sheets + Calendar) - muestra",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {}
+    },
+    {
+      "id": 2,
+      "module": "gemini-ai:createACompletionGeminiPro",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "filter": {
+        "name": "Solo mensajes de texto reales",
+        "conditions": [
+          [
+            {
+              "a": "{{1.entry[].changes[].value.messages[].text.body}}",
+              "o": "exist"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "model": "gemini-3.5-flash",
+        "contents": [
+          {
+            "role": "user",
+            "parts": [
+              {
+                "type": "text",
+                "text": "Mensaje del cliente:\n{{1.entry[].changes[].value.messages[].text.body}}"
+              }
+            ]
+          }
+        ],
+        "generationConfig": {
+          "imageConfig": {},
+          "thinkingConfig": {}
+        },
+        "system_instruction": {
+          "parts": [
+            {
+              "type": "text",
+              "text": "Sos el asistente virtual de un negocio de ejemplo. Respondé en español, de forma clara, cálida y breve, usando solo la información que el negocio te indique. (Este es un prompt de ejemplo: el prompt real del negocio incluye menú, horarios, reglas de reserva y de derivación a un humano.)"
+            }
+          ]
+        }
+      },
+      "metadata": {}
+    },
+    {
+      "id": 3,
+      "module": "whatsapp-business-cloud:sendMessage",
+      "version": 1,
+      "parameters": {
+        "__IMTCONN__": null
+      },
+      "mapper": {
+        "to": "{{1.entry[].changes[].value.messages[].from}}",
+        "text": {
+          "body": "{{2.result}}",
+          "preview_url": false
+        },
+        "type": "text",
+        "fromId": "YOUR_WHATSAPP_PHONE_NUMBER_ID"
+      },
+      "metadata": {}
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "dlq": true,
+      "slots": null,
+      "dataloss": false,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "roundtrips": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false,
+      "autoCommitTriggerLast": true
+    }
+  },
+  "scheduling": {
+    "type": "immediately",
+    "maximum_runs_per_minute": 100
+  },
+  "interface": {
+    "input": [],
+    "output": []
+  }
+}
