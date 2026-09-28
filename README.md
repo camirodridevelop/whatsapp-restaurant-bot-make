@@ -65,19 +65,21 @@ flowchart TD
 .
 ├── README.md
 └── blueprint/
-    └── scenario-blueprint.json   # Escenario de Make exportado y sanitizado
+    └── scenario-sample.json   # Muestra ilustrativa (3 módulos), no el escenario completo
 ```
 
-## 🚀 Cómo probarlo
+> **Por qué no está el escenario completo:** este proyecto se lo armé a un cliente real, y publicar el blueprint completo (los ~40 módulos con la lógica de reservas, el prompt del negocio, el buffer de mensajes y la derivación a un humano) permitiría copiarlo tal cual, con muy poco trabajo. Para mostrar cómo está armado sin entregar el bot completo, dejo `scenario-sample.json`: una muestra reducida con la misma estructura (webhook → IA → respuesta por WhatsApp) pero sin el resto de la lógica. El diagrama, la explicación de cada decisión y las funcionalidades de más arriba sí describen el sistema completo.
 
-1. Importá `blueprint/scenario-blueprint.json` en Make (*Create a new scenario → ⋯ → Import Blueprint*).
-2. Creá las conexiones y reconectá cada módulo: WhatsApp Business Cloud, Google Gemini AI, Google Sheets y Google Calendar.
-3. Creá un **Data Store** para el buffer con los campos `telefono`, `mensajes` y `ultima_actualizacion`, y seleccionalo en los módulos de Data Store.
-4. Creá la hoja de Google Sheets con estas columnas en la fila 1: `Teléfono`, `Fecha`, `Primer mensaje`, `Historial`, `Nombre`, `Preferencias/Alergias`, `Última interacción`, `Notas`.
-5. Reemplazá los marcadores del blueprint: `YOUR_SPREADSHEET_ID`, `YOUR_CALENDAR@gmail.com`, `YOUR_WHATSAPP_PHONE_NUMBER_ID` y `+598XXXXXXXX` (número interno que recibe las alertas).
-6. Copiá la URL del webhook de Make en la configuración de tu app de Meta for Developers y activá el escenario.
+## 🚀 Cómo probar la muestra
 
-> ⚠️ El blueprint está **sanitizado**: no incluye conexiones, tokens, IDs de cuentas ni datos de clientes.
+`scenario-sample.json` solo tiene el mecanismo central (recibir el mensaje, generar la respuesta con Gemini y contestar por WhatsApp), para que se pueda importar y mirar módulo por módulo sin necesitar el resto del sistema:
+
+1. Importá `blueprint/scenario-sample.json` en Make (*Create a new scenario → ⋯ → Import Blueprint*).
+2. Reconectá los dos módulos que necesitan cuenta: Google Gemini AI y WhatsApp Business Cloud.
+3. Reemplazá el marcador `YOUR_WHATSAPP_PHONE_NUMBER_ID` por el ID de tu número de WhatsApp Business.
+4. Copiá la URL del webhook en la configuración de tu app de Meta for Developers, activá el escenario y escribile al número para probarlo.
+
+> ⚠️ Esta muestra está **sanitizada** además de reducida: no incluye conexiones, tokens, IDs de cuentas ni el prompt real del negocio (usa uno genérico de ejemplo).
 
 ## 🧠 Decisiones de diseño
 
